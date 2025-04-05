@@ -1,3 +1,4 @@
+#include <ctype.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -26,11 +27,13 @@ int main(void) {
 
 Category classifyLetters(char text[]) {
 
+  int textLength = strlen(text);
+
   Category category = {0, 0};
 
-  for (int i = 0; i < strlen(text); i++) {
+  for (int i = 0; i < textLength; i++) {
 
-    if (text[i] != ' ' && text[i] != '\n') {
+    if (isalpha(text[i])) {
       if (text[i] == 'A' || text[i] == 'a' || text[i] == 'E' ||
           text[i] == 'e' || text[i] == 'I' || text[i] == 'i' ||
           text[i] == 'O' || text[i] == 'o' || text[i] == 'U' ||
