@@ -3,88 +3,88 @@
 
 #define MAX_BATTERY 100
 
-void mainMenu(void);
-void menuActions(int opt);
-int manageBattery(int opt);
-int checkBatteryRange(int batteryToUpdate);
+int mainMenu(void);
+void program(int *battery);
+void manageBattery(int opt, int *battery);
+int checkBatteryRange(int *battery, int batteryToUpdate);
 
 int main(void) {
 
-  mainMenu();
+  int battery = MAX_BATTERY;
+
+  program(&battery);
 
   return 0;
 }
 
-void mainMenu(void) {
+int mainMenu(void) {
   int opt;
 
   printf("\nFRUIT ROBOT\n");
   printf(
       "\n1. Pick up fruit\n2. Charge battery\n3. On hold\n4. Shutdown robot");
   printf("\nSelect an option: ");
-
   scanf("%d", &opt);
 
-  menuActions(opt);
+  return opt;
 }
 
-void menuActions(int opt) {
+void program(int *battery) {
+  int opt;
   do {
+
+    opt = mainMenu();
 
     switch (opt) {
     case 1:
-      manageBattery(opt);
-      break;
     case 2:
-      manageBattery(opt);
-      break;
     case 3:
-      manageBattery(opt);
+      manageBattery(opt, battery);
+      printf("\nCurrent battery: %d\n", *battery);
     case 4:
+      break;
+    default:
+      printf("\nInvalid option\n");
       break;
     }
 
-  } while (opt != 4 && currentBattery > 0);
+  } while (opt != 4 && *battery > 0);
 }
 
-int checkBatteryRange(int batteryToUpdate) {
-  int currentBattery;
-  if (0 < batteryToUpdate && batteryToUpdate < MAX_BATTERY) {
+int checkBatteryRange(int *battery, int batteryToUpdate) {
+  if (batteryToUpdate >= 0 && batteryToUpdate <= MAX_BATTERY) {
 
-    currentBattery = batteryToUpdate;
+    *battery = batteryToUpdate;
 
-    return currentBattery;
+    return *battery;
 
   } else {
 
-    printf("No se pudo realizar la operacion");
+    printf("\nInvalid operation\n");
+
+    return *battery;
   }
 }
 
-int manageBattery(int opt) {
-
-  int initialBattery = MAX_BATTERY;
-  int currentBattery = 0;
+void manageBattery(int opt, int *battery) {
   int batteryToUpdate = 0;
 
   switch (opt) {
   case 1:
-    batteryToUpdate = initialBattery - 20;
-    currentBattery = checkBatteryRange(batteryToUpdate);
+    batteryToUpdate = *battery - 20;
+    *battery = checkBatteryRange(battery, batteryToUpdate);
     break;
 
   case 2:
-    batteryToUpdate = initialBattery + 30;
-    currentBattery = checkBatteryRange(batteryToUpdate);
+    batteryToUpdate = *battery + 30;
+    *battery = checkBatteryRange(battery, batteryToUpdate);
     break;
 
   case 3:
-    batteryToUpdate = initialBattery - 10;
-    currentBattery = checkBatteryRange(batteryToUpdate);
+    batteryToUpdate = *battery - 10;
+    *battery = checkBatteryRange(battery, batteryToUpdate);
     break;
-
-    printf("Current battery: %d", currentBattery);
-
-    return currentBattery;
+  default:
+    break;
   }
 }
