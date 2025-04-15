@@ -16,7 +16,7 @@ int main(void) {
   return 0;
 }
 
-int mainMenu(void) {
+int mainMenu() {
   int opt;
 
   printf("\nFRUIT ROBOT\n");
