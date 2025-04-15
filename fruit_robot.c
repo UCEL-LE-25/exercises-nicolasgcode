@@ -2,10 +2,10 @@
 
 #define MAX_BATTERY 100
 
-int mainMenu(void);
+int mainMenu();
 void program(int *battery);
 void manageBattery(int opt, int *battery);
-int checkBatteryRange(int *battery, int batteryToUpdate);
+void checkBatteryRange(int *battery, int batteryToUpdate);
 
 int main(void) {
 
@@ -40,6 +40,7 @@ void program(int *battery) {
     case 3:
       manageBattery(opt, battery);
       printf("\nCurrent battery: %d\n", *battery);
+      break;
     case 4:
       break;
     default:
@@ -50,18 +51,14 @@ void program(int *battery) {
   } while (opt != 4 && *battery > 0);
 }
 
-int checkBatteryRange(int *battery, int batteryToUpdate) {
+void checkBatteryRange(int *battery, int batteryToUpdate) {
   if (batteryToUpdate >= 0 && batteryToUpdate <= MAX_BATTERY) {
 
     *battery = batteryToUpdate;
 
-    return *battery;
-
   } else {
 
     printf("\nInvalid operation\n");
-
-    return *battery;
   }
 }
 
@@ -71,17 +68,17 @@ void manageBattery(int opt, int *battery) {
   switch (opt) {
   case 1:
     batteryToUpdate = *battery - 20;
-    *battery = checkBatteryRange(battery, batteryToUpdate);
+    checkBatteryRange(battery, batteryToUpdate);
     break;
 
   case 2:
     batteryToUpdate = *battery + 30;
-    *battery = checkBatteryRange(battery, batteryToUpdate);
+    checkBatteryRange(battery, batteryToUpdate);
     break;
 
   case 3:
     batteryToUpdate = *battery - 10;
-    *battery = checkBatteryRange(battery, batteryToUpdate);
+    checkBatteryRange(battery, batteryToUpdate);
     break;
   default:
     break;
