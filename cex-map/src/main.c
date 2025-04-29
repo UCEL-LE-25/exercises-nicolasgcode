@@ -1,11 +1,11 @@
-#include <stdio.h>
-
+#include "index.h"
 #include "load_map.h"
 #include "print_map.h"
+#include <stdio.h>
 
 int main(void) {
 
-  int map[5][5] = {0};
+  int map[COLS][ROWS] = {0};
 
   loadMap((int *)map);
 
