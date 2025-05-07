@@ -3,7 +3,7 @@
 #include "student.h"
 #include <stdio.h>
 
-void program(Student *students[]) {
+void program(Student students[]) {
 
   int opt;
 

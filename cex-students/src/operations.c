@@ -11,17 +11,13 @@ void addStudents(Student students[]) {
     printf("\nPlease, complete the following\n");
 
     printf("Name: ");
-    scanf("%s\n", students[i].name);
-
-    getchar();
+    scanf("%s", students[i].name);
 
     printf("Age: ");
-    scanf("%d\n", &students[i].age);
-
-    getchar();
+    scanf("%d", &students[i].age);
 
     printf("Score: ");
-    scanf("%f\n", &students[i].finalScore);
+    scanf("%f", &students[i].finalScore);
 
     if (!continueAdd()) {
       break;
@@ -39,8 +35,8 @@ bool continueAdd() {
 
   getchar();
 
-  printf("\nAdd another student? (y-n): \n");
+  printf("\nAdd another student? (y-n): ");
   scanf("%c", &choice);
 
-  return (choice == 'Y' && choice == 'y');
+  return (choice == 'Y' || choice == 'y');
 }
