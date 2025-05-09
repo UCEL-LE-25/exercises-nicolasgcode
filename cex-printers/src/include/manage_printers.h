@@ -1,6 +1,13 @@
 #pragma once
+#include "suite.h"
+#include <stdbool.h>
 
+void addPages(Suite *suite);
 
-void addPages();
+void changeState(Suite *suite);
 
-void changeState();
+bool isValidOpt(int opt);
+
+bool isValidQuantity(int pages);
+
+bool isValidState(int state);

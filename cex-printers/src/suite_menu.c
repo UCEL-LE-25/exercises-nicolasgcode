@@ -2,33 +2,32 @@
 #include "area_menu.h"
 #include "company.h"
 #include "index.h"
+#include "manage_printers.h"
 #include "suite.h"
 #include <stdio.h>
+void suiteMenu(Company *company, Suite *suite) {
 
-void suiteMenu(int opt, Company *company) {
-
-  int smOpt;
+  int opt;
 
   do {
 
-    printf("\nOPERATIONS\n\n 1. Add pages\n 2. Change state\n 4. Go back\n");
+    printf("\nOPERATIONS\n\n 1. Add pages\n 2. Change state\n 3. Go back\n");
 
     printf("\nPlease, select an option: ");
 
-    scanf("%d", &smOpt);
+    scanf("%d", &opt);
 
-    switch (smOpt) {
+    switch (opt) {
 
     case 1:
+      addPages(suite);
       break;
 
     case 2:
+      changeState(suite);
       break;
 
     case 3:
-      break;
-
-    case 4:
       areaMenu(company);
       break;
 
@@ -37,27 +36,27 @@ void suiteMenu(int opt, Company *company) {
       break;
     }
 
-  } while (opt != 4);
+  } while (opt != 3);
 }
 
 void showSuite(int opt, Company *company) {
 
-  Suite *selected;
+  Suite *suite;
 
   switch (opt) {
 
   case 1:
 
-    selected = &company->rrhh;
+    suite = &company->rrhh;
 
     break;
 
   case 2:
-    selected = &company->adm;
+    suite = &company->adm;
     break;
 
   case 3:
-    selected = &company->tech;
+    suite = &company->tech;
     break;
   }
 
@@ -65,6 +64,8 @@ void showSuite(int opt, Company *company) {
 
   for (int i = 0; i < AVBL_PRINTERS; i++) {
     printf("Printer %d - Pages: %d, State: %d\n", i + 1,
-           selected->printers[i].pages, selected->printers[i].state);
+           suite->printers[i].pages, suite->printers[i].state);
   }
+
+  suiteMenu(company, suite);
 }

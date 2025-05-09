@@ -1,6 +1,6 @@
 #pragma once
 #include "company.h"
 
-void suiteMenu(int opt, Company *company);
+void suiteMenu(Company *company, Suite *suite);
 
 void showSuite(int opt, Company *company);

@@ -19,7 +19,6 @@ void areaMenu(Company *company) {
 
     case 1:
       showSuite(opt, company);
-      suiteMenu(opt, company);
       break;
 
     case 2:
