@@ -25,9 +25,24 @@ void addStudents(Student students[]) {
   }
 }
 
-void printStudents(Student students[]) {}
+void printStudents(Student students[]) {
 
-void calculateAvgScore(Student students[]) {}
+  for (int i = 0; i < MAX_STUDENTS; i++) {
+
+    printf("\nName: %s\nAge %d\nFinal score: %.2f\n", students[i].name,
+           students[i].age, students[i].final);
+  }
+}
+
+void calculateAvgScore(Student students[]) {
+
+  float acum = 0;
+
+  for (int i = 0; i < MAX_STUDENTS; i++) {
+
+    acum += students[i].finalScore;
+  }
+}
 
 bool continueAdd() {
 

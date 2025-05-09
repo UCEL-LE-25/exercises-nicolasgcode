@@ -19,6 +19,7 @@ void program(Student students[]) {
     break;
 
   case 2:
+    printStudents(students);
     break;
 
   case 3:
