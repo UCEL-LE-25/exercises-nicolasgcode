@@ -9,3 +9,5 @@ typedef struct {
 
 } Suite;
 
+void printSuite(Suite *suite);
+

@@ -1,6 +1,7 @@
 #include "main_menu.h"
 #include "area_menu.h"
 #include "company.h"
+#include "generate_reports.h"
 #include <stdio.h>
 
 void mainMenu(Company *company) {
@@ -9,7 +10,9 @@ void mainMenu(Company *company) {
 
   do {
 
-    printf("\nPRINTER MGMT SYS\n\n 1. Manage printers\n 2. \n 3. \n 4. Exit\n");
+    printf(
+        "\nPRINTER MGMT SYS\n\n 1. Manage printers\n 2. Sector activity \n 3. "
+        "Active printers \n 4. Exit");
 
     printf("\nPlease, select an option: ");
 
@@ -22,9 +25,11 @@ void mainMenu(Company *company) {
       break;
 
     case 2:
+      printSectorActivity(company);
       break;
 
     case 3:
+      printActivePrinters(company);
       break;
 
     case 4:

@@ -22,9 +22,11 @@ void areaMenu(Company *company) {
       break;
 
     case 2:
+      showSuite(opt, company);
       break;
 
     case 3:
+      showSuite(opt, company);
       break;
 
     case 4:

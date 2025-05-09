@@ -1,4 +1,5 @@
 #include "manage_printers.h"
+#include "suite.h"
 #include <stdio.h>
 
 void addPages(Suite *suite) {
@@ -15,6 +16,8 @@ void addPages(Suite *suite) {
     if (isValidQuantity(pages)) {
 
       suite->printers[opt - 1].pages += pages;
+      printSuite(suite);
+
     } else {
       printf("\nQuantity must be greater than 0\n");
     }
@@ -36,7 +39,9 @@ void changeState(Suite *suite) {
 
     if (isValidState(state)) {
 
-      suite->printers[opt - 1].state == state;
+      suite->printers[opt - 1].state = state;
+      printSuite(suite);
+
     } else {
       printf("\nState must be 1 - Active or 0 - Inactive\n");
     }

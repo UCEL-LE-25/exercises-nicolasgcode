@@ -5,6 +5,7 @@
 #include "manage_printers.h"
 #include "suite.h"
 #include <stdio.h>
+
 void suiteMenu(Company *company, Suite *suite) {
 
   int opt;
@@ -60,12 +61,6 @@ void showSuite(int opt, Company *company) {
     break;
   }
 
-  printf("\nCURRENT SUITE\n");
-
-  for (int i = 0; i < AVBL_PRINTERS; i++) {
-    printf("Printer %d - Pages: %d, State: %d\n", i + 1,
-           suite->printers[i].pages, suite->printers[i].state);
-  }
-
+  printSuite(suite);
   suiteMenu(company, suite);
 }
