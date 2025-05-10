@@ -1,4 +1,4 @@
-#include "manage_printers.h"
+#include "printer.h"
 #include "suite.h"
 #include <stdio.h>
 

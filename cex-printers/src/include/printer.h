@@ -1,5 +1,5 @@
 #pragma once
-#include "suite.h"
+#include "typedefs.h"
 #include <stdbool.h>
 
 void addPages(Suite *suite);

@@ -1,6 +1,6 @@
 #include "index.h"
-#include "manage_printers.h"
 #include "menus.h"
+#include "printer.h"
 #include "suite.h"
 #include <stdio.h>
 
