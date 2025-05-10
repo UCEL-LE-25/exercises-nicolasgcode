@@ -1,5 +1,5 @@
 #pragma once
-#include "company.h"
+#include "typedefs.h"
 
 
 void printSectorActivity(Company *company);

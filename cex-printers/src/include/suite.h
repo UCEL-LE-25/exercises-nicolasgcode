@@ -1,13 +1,8 @@
 #pragma once
 
-#include "printer.h"
+#include "typedefs.h"
 #include "index.h"
 
-typedef struct {
-  
-  Printer printers[AVBL_PRINTERS];
-
-} Suite;
-
 void printSuite(Suite *suite);
+void loadSuite(int opt, Company *company);
 

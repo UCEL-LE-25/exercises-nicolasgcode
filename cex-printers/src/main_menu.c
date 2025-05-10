@@ -1,7 +1,5 @@
-#include "main_menu.h"
-#include "area_menu.h"
-#include "company.h"
 #include "generate_reports.h"
+#include "menus.h"
 #include <stdio.h>
 
 void mainMenu(Company *company) {

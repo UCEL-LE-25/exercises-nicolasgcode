@@ -1,5 +1,4 @@
 #include "calculations.h"
-#include "index.h"
 #include <stdio.h>
 
 SectorPages calculateSectorPages(Company *company) {

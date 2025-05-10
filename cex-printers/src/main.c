@@ -1,5 +1,4 @@
-#include "company.h"
-#include "main_menu.h"
+#include "menus.h"
 
 int main(void) {
 

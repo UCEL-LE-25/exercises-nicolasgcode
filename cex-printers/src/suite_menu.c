@@ -1,8 +1,6 @@
-#include "suite_menu.h"
-#include "area_menu.h"
-#include "company.h"
 #include "index.h"
 #include "manage_printers.h"
+#include "menus.h"
 #include "suite.h"
 #include <stdio.h>
 
@@ -40,7 +38,7 @@ void suiteMenu(Company *company, Suite *suite) {
   } while (opt != 3);
 }
 
-void showSuite(int opt, Company *company) {
+void loadSuite(int opt, Company *company) {
 
   Suite *suite;
 

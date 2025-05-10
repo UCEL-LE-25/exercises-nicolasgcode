@@ -1,7 +1,5 @@
-#include "area_menu.h"
-#include "main_menu.h"
-#include "suite_menu.h"
-
+#include "menus.h"
+#include "suite.h"
 #include <stdio.h>
 
 void areaMenu(Company *company) {
@@ -18,15 +16,9 @@ void areaMenu(Company *company) {
     switch (opt) {
 
     case 1:
-      showSuite(opt, company);
-      break;
-
     case 2:
-      showSuite(opt, company);
-      break;
-
     case 3:
-      showSuite(opt, company);
+      loadSuite(opt, company);
       break;
 
     case 4:

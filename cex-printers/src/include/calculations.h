@@ -1,18 +1,6 @@
 #pragma once
-#include "company.h"
-
-
-typedef struct {
-  int rrhh;
-  int adm;
-  int tech;
-} SectorPages;
-
-typedef struct {
-  int rrhh;
-  int adm;
-  int tech;
-} ActivePrinters;
+#include "typedefs.h"
+#include "index.h"
 
 SectorPages calculateSectorPages(Company *company);
 
