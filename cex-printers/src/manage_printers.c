@@ -9,20 +9,24 @@ void addPages(Suite *suite) {
   printf("Select printer: (1, 2, 3 or 4): ");
   scanf("%d", &opt);
 
-  if (isValidOpt(opt)) {
-    printf("Enter number of pages to add: ");
-    scanf("%d", &pages);
+  if (isActive(opt, suite)) {
+    if (isValidOpt(opt)) {
+      printf("Enter number of pages to add: ");
+      scanf("%d", &pages);
 
-    if (isValidQuantity(pages)) {
+      if (isValidQuantity(pages)) {
 
-      suite->printers[opt - 1].pages += pages;
-      printSuite(suite);
+        suite->printers[opt - 1].pages += pages;
+        printSuite(suite);
 
+      } else {
+        printf("\nQuantity must be greater than 0\n");
+      }
     } else {
-      printf("\nQuantity must be greater than 0\n");
+      printf("\nInvalid option. Try again.\n");
     }
   } else {
-    printf("\nInvalid option. Try again.\n");
+    printf("\nPlease, activate printer before adding pages.\n");
   }
 }
 
@@ -55,3 +59,7 @@ bool isValidOpt(int opt) { return (opt > 0 && opt >= 1 && opt <= 4); }
 bool isValidQuantity(int pages) { return pages > 0; }
 
 bool isValidState(int state) { return (state == 0 || state == 1); }
+
+bool isActive(int opt, Suite *suite) {
+  return suite->printers[opt - 1].state == 1;
+}
