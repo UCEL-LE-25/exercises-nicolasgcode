@@ -10,3 +10,5 @@ void deleteTable();
 void loadDates();
 
 void loadEvents();
+
+void printTable();

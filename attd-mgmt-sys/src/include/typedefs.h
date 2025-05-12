@@ -44,3 +44,10 @@ typedef struct {
   Date date[];
   char event[MAX_CHAR];
 } AcadCalTable; // Academic Calendar Table
+
+typedef struct {
+  int reportId;
+  Date genDate;
+  //...
+  char observation[MAX_CHAR];
+} Report;
