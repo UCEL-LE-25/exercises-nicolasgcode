@@ -6,3 +6,7 @@ void createTable();
 void updateTable();
 
 void deleteTable();
+
+void loadDates();
+
+void loadEvents();
