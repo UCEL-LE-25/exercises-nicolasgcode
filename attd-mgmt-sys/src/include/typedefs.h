@@ -21,6 +21,7 @@ typedef struct {
   int tableId;
   int days;
   int numStudents;
+  Date genDate;
 
   Student students[];
 
@@ -31,6 +32,7 @@ typedef struct {
   int tableId;
   int cols[GR_TABLE_COLS];
   int numStudents;
+  Date genDate;
 
   Student students[];
 
