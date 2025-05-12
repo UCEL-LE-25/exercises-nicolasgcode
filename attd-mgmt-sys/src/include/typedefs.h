@@ -2,6 +2,12 @@
 #include "constants.h"
 
 typedef struct {
+  int year;
+  int month;
+  int day;
+} Date;
+
+typedef struct {
 
   int studentId;
   char name[MAX_CHAR];
@@ -33,6 +39,6 @@ typedef struct {
 typedef struct {
   int tableId;
   int cols[ACAD_CAL_TABLE_COLS];
-  int date[];
-  int event[];
+  Date date[];
+  char event[MAX_CHAR];
 } AcadCalTable; // Academic Calendar Table
