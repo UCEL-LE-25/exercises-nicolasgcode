@@ -2,10 +2,12 @@
 
 #include "typedefs.h"
 
+File createFile(char *name);
+
 void writeFile();
 
-void readFile();
+void readFile(File *file, char *file_path);
 
-void backupFile();
+int backupFile(File *file, char *file_path);
 
 void deleteFile();

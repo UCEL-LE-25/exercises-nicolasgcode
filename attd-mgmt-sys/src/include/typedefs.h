@@ -12,9 +12,15 @@ typedef struct {
   int studentId;
   char name[MAX_CHAR];
   char lastName[MAX_CHAR];
-  int attendance[MAX_DAYS]; //0: absent | 1: present
-  //subject 1..n ?
+  int attendance[MAX_DAYS]; // 0: absent | 1: present
+  // subject 1..n ?
 } Student;
+
+typedef struct {
+  char name[MAX_CHAR];
+  char location[MAX_CHAR];
+  Date createdAt;
+} File;
 
 typedef struct {
 
@@ -41,13 +47,6 @@ typedef struct {
 typedef struct {
   int tableId;
   int cols[ACAD_CAL_TABLE_COLS];
-  Date date[];
   char event[MAX_CHAR];
+  Date date[];
 } AcadCalTable; // Academic Calendar Table
-
-typedef struct {
-  int reportId;
-  Date genDate;
-  //...
-  char observation[MAX_CHAR];
-} Report;
