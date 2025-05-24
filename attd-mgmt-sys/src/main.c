@@ -1,10 +1,8 @@
 #include "include/file.h"
-
 int main(void) {
 
-  char *name = "attd_table.txt";
+  char subject[50] = "math";
 
-  createFile(name);
-
+  createFile(subject);
   return 0;
 }

@@ -1,31 +1,33 @@
 #include "include/file.h"
+#include "include/date.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-File createFile(char *name) {
+File createFile(char *subject) {
 
   File file;
 
-  strncpy(file.name, name, sizeof(file.name) - 1);
+  char filename[256];
+
+  Date date = getTodaysDate();
+
+  printf("subject %s ", subject);
+  printf("date: %02d%02d%04d", date.month, date.day, date.year);
+
+  snprintf(filename, sizeof(filename), "%s%s_%02d%02d%04d.txt", ATTD_PREFIX,
+           subject, date.month, date.day, date.year);
+  printf("filename %s", filename);
+
+  strncpy(file.name, filename, sizeof(file.name) - 1);
+  file.name[sizeof(file.name) - 1] = '\0';
+
   strncpy(file.location, DEFAULT_FILE_PATH, sizeof(file.location) - 1);
 
   char file_path[1024];
   snprintf(file_path, sizeof(file_path), "%s%s", file.location, file.name);
 
-  printf("Creating file: %s\n", file_path);
-
-  FILE *fp = fopen(file_path, "a");
-
-  if (fp)
-    fclose(fp);
-  else {
-    perror("Error creating file");
-    abort();
-  }
-
-  printf("File created: %s file at: %s\n", file.name, file.location);
-
+  createPhysicalFile(file_path);
   backupFile(&file, file_path);
 
   return file;
@@ -54,4 +56,18 @@ int backupFile(File *file, char *file_path) {
   printf("Backup created: %s\n", bkp_path);
 
   return 0;
+}
+
+void createPhysicalFile(char *file_path) {
+
+  printf("Creating file: %s\n", file_path);
+
+  FILE *fp = fopen(file_path, "a");
+
+  if (fp)
+    fclose(fp);
+  else {
+    perror("Error creating file");
+    abort();
+  }
 }

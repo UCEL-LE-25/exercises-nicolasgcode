@@ -2,9 +2,11 @@
 
 #include "typedefs.h"
 
-File createFile(char *name);
+File createFile(char *subject);
 
-void writeFile();
+void createPhysicalFile(char *file_path);
+
+void writeFile(File *file);
 
 void readFile(File *file, char *file_path);
 
