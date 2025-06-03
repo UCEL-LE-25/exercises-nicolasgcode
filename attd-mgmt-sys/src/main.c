@@ -1,8 +1,7 @@
-#include "include/file.h"
+#include "include/user.h"
 int main(void) {
 
-  char subject[50] = "math";
+  login();
 
-  createFile(subject);
   return 0;
 }

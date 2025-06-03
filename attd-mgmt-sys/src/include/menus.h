@@ -1,5 +1,6 @@
-#pragma once 
+#pragma once
 
+void loginMenu();
 
 void mainMenu();
 

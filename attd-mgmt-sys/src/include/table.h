@@ -1,5 +1,5 @@
+#pragma once
 #include "typedefs.h"
-
 
 void createTable();
 

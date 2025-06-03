@@ -1,11 +1,21 @@
 #pragma once
 #include "constants.h"
 
+typedef enum { TEACHER, ADMIN } ROLE;
+
 typedef struct {
   int year;
   int month;
   int day;
 } Date;
+
+typedef struct {
+  int id;
+  char username[50];
+  char password[50];
+  ROLE role;
+
+} User;
 
 typedef struct {
 

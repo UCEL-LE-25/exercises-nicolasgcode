@@ -2,7 +2,7 @@
 
 #include "typedefs.h"
 
-File createFile(char *subject);
+File createFile(char *subject, int id);
 
 void createPhysicalFile(char *file_path);
 

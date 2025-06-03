@@ -4,19 +4,20 @@
 #include <stdlib.h>
 #include <string.h>
 
-File createFile(char *subject) {
+File createFile(char *subject, int id) {
 
   File file;
 
   char filename[256];
+  char file_path[1024];
 
   Date date = getTodaysDate();
 
   printf("subject %s ", subject);
   printf("date: %02d%02d%04d", date.month, date.day, date.year);
 
-  snprintf(filename, sizeof(filename), "%s%s_%02d%02d%04d.txt", ATTD_PREFIX,
-           subject, date.month, date.day, date.year);
+  snprintf(filename, sizeof(filename), "%03d_%s%s_%02d%02d%04d.txt", id,
+           ATTD_PREFIX, subject, date.month, date.day, date.year);
   printf("filename %s", filename);
 
   strncpy(file.name, filename, sizeof(file.name) - 1);
@@ -24,10 +25,10 @@ File createFile(char *subject) {
 
   strncpy(file.location, DEFAULT_FILE_PATH, sizeof(file.location) - 1);
 
-  char file_path[1024];
   snprintf(file_path, sizeof(file_path), "%s%s", file.location, file.name);
 
   createPhysicalFile(file_path);
+
   backupFile(&file, file_path);
 
   return file;
