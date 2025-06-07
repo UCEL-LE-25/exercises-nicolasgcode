@@ -1,5 +1,8 @@
 #pragma once
 
-void login();
+#include "./typedefs.h"
+#include <stdbool.h>
+
+bool login(Session *session);
 void signUp();
-void logout();
+void logout(Session *session);

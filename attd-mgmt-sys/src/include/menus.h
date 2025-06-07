@@ -1,10 +1,13 @@
 #pragma once
+#include "./typedefs.h"
 
-void loginMenu();
+void loginMenu(Session *session);
 
-void mainMenu();
+void mainMenu(Session *session);
 
-void tableMenu();
+void tableMenu(Session *session);
+
+void showMenu();
 
 void tableCreationMenu();
 

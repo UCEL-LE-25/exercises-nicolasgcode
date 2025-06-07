@@ -6,7 +6,7 @@ void pathExists(char *file_path);
 
 void fileExists(File file);
 
-void userExists(char username[], char password[]);
+bool userExists(char username[], char password[], Session *session);
 
 void checkAccessLevel(User user);
 

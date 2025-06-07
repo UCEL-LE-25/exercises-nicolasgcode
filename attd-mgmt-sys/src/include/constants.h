@@ -10,7 +10,3 @@
 #define GR_PREFIX "gr_"
 #define REPORT_PREFIX "rp_"
 #define BACKUP_SUFFIX "_bkp"
-#define DEFAULT_USERS                                                          \
-  (User[]) {                                                                   \
-    {1, "root", "admin", ADMIN}, { 2, "teacher", "12345678", TEACHER }         \
-  }

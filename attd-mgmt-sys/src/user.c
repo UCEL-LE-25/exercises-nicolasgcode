@@ -2,25 +2,30 @@
 #include "include/constants.h"
 #include "include/validators.h"
 #include <stdio.h>
+#include <string.h>
 
-void login() {
+bool login(Session *session)
+{
 
   char username[MAX_CHAR];
 
   char password[MAX_CHAR];
 
-  // do-while menu here
+  do
+  {
 
-  printf("Username: ");
-  scanf("%s", username);
-  printf("Password: ");
-  scanf("%s", password);
+    printf("Username: ");
+    scanf("%s", username);
+    printf("Password: ");
+    scanf("%s", password);
 
-  userExists(username, password);
+  } while (!userExists(username, password, session));
+
+  return true;
 }
 
-void logout() {
-
-  // TBI - clear authenticated user - prob set to some empty user or null
-  // TBI - return to login menu
+void logout(Session *session)
+{
+  session->currentUser = NULL;
+  printf("Logged out.");
 }

@@ -1,7 +1,10 @@
-#include "include/user.h"
+#include "include/menus.h"
+#include "include/typedefs.h"
+#include <string.h>
 int main(void) {
 
-  login();
+  Session session = {NULL};
 
+  loginMenu(&session);
   return 0;
 }

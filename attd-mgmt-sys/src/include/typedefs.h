@@ -19,6 +19,12 @@ typedef struct {
 
 typedef struct {
 
+  User *currentUser;
+
+} Session;
+
+typedef struct {
+
   int studentId;
   char name[MAX_CHAR];
   char lastName[MAX_CHAR];

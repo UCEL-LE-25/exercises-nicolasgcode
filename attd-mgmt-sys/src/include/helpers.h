@@ -3,6 +3,6 @@
 
 char *roleToString(ROLE role);
 
-User setCurrentSession(User user);
+char *renderMenu(Session *session);
 
 void hashPsw();
