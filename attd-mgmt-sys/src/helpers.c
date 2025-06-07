@@ -34,7 +34,7 @@ char *renderMenu(Session *session)
 
   if (strcmp(roleStr, "Admin") == 0)
   {
-    strcat(menuDisplay, "1. View tables\n2. Generate reports\n3. Delete tables\n4. Exit\n");
+    strcat(menuDisplay, "1.Manage tables\n2.Manage users\n3. Exit\n");
   }
   else if (strcmp(roleStr, "Teacher") == 0)
   {
