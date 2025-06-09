@@ -11,7 +11,7 @@ void createTable()
 
   char subject[50];
 
-  printf("Do you want your table weekly or monthly? (1-weekly/2-monthly): ");
+  printf("Select table type (0-weekly/1-biweekly): ");
   scanf("%d", &opt);
   printf("How many students are in the class? (max %d): ", MAX_STUDENTS);
   scanf("%d", &classSize);
@@ -50,7 +50,7 @@ void loadStudents(Student students[], int classSize, int days)
 {
   int count = 0;
 
-  printf("Please, provide id, name and lastname for each student.\n");
+  printf("\nPlease, provide ID, name and lastname for each student.\n");
 
   for (int i = 0; i < classSize; i++)
   {
@@ -77,7 +77,7 @@ void printTable(FILE *f)
 
   while (fgets(line, sizeof(line), f))
   {
-    line[strcspn(line, "\n")] = 0; // eliminar salto de línea
+    line[strcspn(line, "\n")] = 0;
     char *token = strtok(line, ",");
     int col = 0;
 
@@ -85,33 +85,33 @@ void printTable(FILE *f)
     {
       if (row == 0)
       {
-        // Encabezado
+
         if (col == 0)
-          printf("%-6s", "ID");
+          printf("%-12s", "ID");
         else if (col == 1)
           printf("%-12s", "Nombre");
         else if (col == 2)
           printf("%-12s", "Apellido");
         else
-          printf("%-6s", token); // Día
+          printf("%-4s", token);
       }
       else
       {
         if (col == 0)
-          printf("%-6s", token); // ID
+          printf("%-12s", token);
         else if (col == 1)
-          printf("%-12s", token); // Nombre
+          printf("%-12s", token);
         else if (col == 2)
-          printf("%-12s", token); // Apellido
+          printf("%-12s", token);
         else
         {
-          // Asistencia: 1 o 0 con color
+
           if (strcmp(token, "1") == 0)
             printf(GREEN "%-6s" RESET, "1");
           else if (strcmp(token, "0") == 0)
             printf(RED "%-6s" RESET, "0");
           else
-            printf("%-6s", token); // por si hay error
+            printf("%-6s", token);
         }
       }
 

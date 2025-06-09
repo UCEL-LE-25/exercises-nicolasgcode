@@ -89,11 +89,10 @@ void writeFile(char *file_path, Student students[], int classSize, int days)
   FILE *fp = fopen(file_path, "w");
   if (fp)
   {
-    // Optionally write a header row (StudentId, Name, LastName, Day1...Day7)
     fprintf(fp, "StudentId,Name,LastName");
     for (int day = 1; day <= days; day++)
     {
-      fprintf(fp, ",Day%d", day);
+      fprintf(fp, ",D%d", day);
     }
     fprintf(fp, "\n");
 
@@ -108,7 +107,7 @@ void writeFile(char *file_path, Student students[], int classSize, int days)
       }
       fprintf(fp, "\n");
     }
-    fclose(fp); // Close after writing all students
+    fclose(fp);
   }
   else
   {
@@ -174,7 +173,7 @@ void getAllFiles()
   printf("Available tables:\n");
   for (int i = 0; i < count; i++)
   {
-    printf("- %s\n", subjects[i]);
+    printf("* %s\n", subjects[i]);
   }
 }
 
@@ -203,7 +202,6 @@ void getFile(const char *subject)
 
       if (token && strcmp(token, subject) == 0)
       {
-        // build full path
         char fullpath[512];
         snprintf(fullpath, sizeof(fullpath), "%s%s", DEFAULT_FILE_PATH, entry->d_name);
 
@@ -233,7 +231,7 @@ void getFile(const char *subject)
   FILE *f = fopen(targetFile, "r");
   if (!f)
   {
-    perror("No se pudo abrir el archivo");
+    perror("Could not open file");
     return;
   }
 
