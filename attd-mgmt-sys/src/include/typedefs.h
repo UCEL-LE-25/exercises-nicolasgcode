@@ -1,15 +1,21 @@
 #pragma once
 #include "constants.h"
 
-typedef enum { TEACHER, ADMIN } ROLE;
+typedef enum
+{
+  TEACHER,
+  ADMIN
+} ROLE;
 
-typedef struct {
+typedef struct
+{
   int year;
   int month;
   int day;
 } Date;
 
-typedef struct {
+typedef struct
+{
   int id;
   char username[50];
   char password[50];
@@ -17,28 +23,32 @@ typedef struct {
 
 } User;
 
-typedef struct {
+typedef struct
+{
 
   User *currentUser;
 
 } Session;
 
-typedef struct {
+typedef struct
+{
 
   int studentId;
   char name[MAX_CHAR];
   char lastName[MAX_CHAR];
-  int attendance[MAX_DAYS]; // 0: absent | 1: present
-  // subject 1..n ?
+  int attendance[MAX_DAYS]; // 0 - absent, 1 - present
+
 } Student;
 
-typedef struct {
+typedef struct
+{
   char name[MAX_CHAR];
   char location[MAX_CHAR];
   Date createdAt;
 } File;
 
-typedef struct {
+typedef struct
+{
 
   int tableId;
   int days;
@@ -49,7 +59,8 @@ typedef struct {
 
 } AttdTable;
 
-typedef struct {
+typedef struct
+{
 
   int tableId;
   int cols[GR_TABLE_COLS];
@@ -60,7 +71,8 @@ typedef struct {
 
 } GrTable; // grade table
 
-typedef struct {
+typedef struct
+{
   int tableId;
   int cols[ACAD_CAL_TABLE_COLS];
   char event[MAX_CHAR];

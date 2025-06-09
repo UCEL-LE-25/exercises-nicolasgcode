@@ -2,13 +2,14 @@
 
 #include "typedefs.h"
 
-File createFile(char *subject, int id);
+File createFile(char *subject, Student students[], int classSize, int days);
 
 void createPhysicalFile(char *file_path);
 
-void writeFile(File *file);
+void writeFile(char *file_path, Student students[], int classSize, int days);
 
-void readFile(File *file, char *file_path);
+void getAllFiles();
+void getFile(const char *subject);
 
 int backupFile(File *file, char *file_path);
 

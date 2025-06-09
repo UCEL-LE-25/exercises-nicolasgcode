@@ -10,3 +10,6 @@
 #define GR_PREFIX "gr_"
 #define REPORT_PREFIX "rp_"
 #define BACKUP_SUFFIX "_bkp"
+#define GREEN "\033[0;32m"
+#define RED "\033[0;31m"
+#define RESET "\033[0m"

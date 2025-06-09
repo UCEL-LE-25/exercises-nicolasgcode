@@ -1,6 +1,8 @@
 #include "include/menus.h"
 #include "include/helpers.h"
 #include "include/user.h"
+#include "include/table.h"
+#include "include/file.h"
 #include "include/validators.h"
 #include <stdio.h>
 #include <string.h>
@@ -49,10 +51,16 @@ void tableMenu(Session *session)
     switch (opt)
     {
     case 1:
+      getAllFiles();
       break;
     case 2:
+      createTable();
       break;
     case 3:
+      char subject[50];
+      printf("Enter name of table to search: \n");
+      scanf(" %49s", subject);
+      getFile(subject);
       break;
     case 4:
       break;
@@ -62,5 +70,5 @@ void tableMenu(Session *session)
       printf("Invalid option. Please try again.\n");
       break;
     }
-  } while (opt != 2);
+  } while (opt != 5);
 }
