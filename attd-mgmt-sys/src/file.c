@@ -1,7 +1,9 @@
 #include "include/file.h"
 #include "include/table.h"
 #include "include/date.h"
+#include "include/menus.h"
 #include <stdio.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include <dirent.h>
@@ -177,13 +179,13 @@ void getAllFiles()
   }
 }
 
-void getFile(const char *subject)
+FILE *getFile(const char *subject, char *outPath)
 {
   DIR *d = opendir(DEFAULT_FILE_PATH);
   if (!d)
   {
     perror("Could not open directory");
-    return;
+    return NULL;
   }
 
   struct dirent *entry;
@@ -223,7 +225,7 @@ void getFile(const char *subject)
   if (strlen(targetFile) == 0)
   {
     printf("Table not found for: '%s'.\n", subject);
-    return;
+    return NULL;
   }
 
   printf("Table found '%s':\n\n", subject);
@@ -232,10 +234,89 @@ void getFile(const char *subject)
   if (!f)
   {
     perror("Could not open file");
-    return;
+    return NULL;
   }
 
-  printTable(f);
+  strcpy(outPath, targetFile);
 
-  fclose(f);
+  return f;
+}
+
+int loadStudentsFromFile(FILE *file, Student *students, int *classSize, int *days)
+{
+  rewind(file);
+
+  char line[512];
+  int studentCount = 0;
+  int dayCount = 0;
+
+  // Leer encabezado
+  if (!fgets(line, sizeof(line), file))
+  {
+    printf("No se pudo leer el encabezado\n");
+    return 0;
+  }
+
+  char *token = strtok(line, ",");
+  int columnIndex = 0;
+  while (token != NULL)
+  {
+    if (columnIndex >= 3)
+      dayCount++;
+    token = strtok(NULL, ",");
+    columnIndex++;
+  }
+
+  while (fgets(line, sizeof(line), file))
+  {
+    if (studentCount >= MAX_STUDENTS)
+      break;
+
+    char *token = strtok(line, ",");
+    if (!token)
+      break;
+    students[studentCount].studentId = atoi(token);
+
+    token = strtok(NULL, ",");
+    if (!token)
+      break;
+    strcpy(students[studentCount].name, token);
+
+    token = strtok(NULL, ",");
+    if (!token)
+      break;
+    strcpy(students[studentCount].lastName, token);
+
+    for (int d = 0; d < dayCount; d++)
+    {
+      token = strtok(NULL, ",\n");
+      if (!token)
+      {
+        printf("Faltan días de asistencia en línea %d\n", studentCount + 1);
+        return 0;
+      }
+      students[studentCount].attendance[d] = atoi(token);
+    }
+
+    studentCount++;
+  }
+
+  *classSize = studentCount;
+  *days = dayCount;
+  rewind(file); // Opcional: por si se quiere usar el archivo de nuevo
+  return 1;
+}
+
+void deleteFile(FILE *table, char *filePath)
+{
+  fclose(table);
+
+  if (remove(filePath) == 0)
+  {
+    printf("Archivo eliminado correctamente: %s\n", filePath);
+  }
+  else
+  {
+    perror("Error al eliminar el archivo");
+  }
 }

@@ -7,6 +7,8 @@ void mainMenu(Session *session);
 
 void tableMenu(Session *session);
 
+void manageTableMenu();
+
 void showMenu();
 
 void tableCreationMenu();

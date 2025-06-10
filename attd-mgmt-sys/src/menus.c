@@ -43,24 +43,25 @@ void tableMenu(Session *session)
 
   do
   {
+    getAllFiles();
 
-    printf("\n1. View tables\n2. Create new table\n3. Update existing table\n4. Delete table\n5. Go back\n");
+    printf("\n1. Open table\n2. Create new table\n3. Go back\n");
 
     scanf("%d", &opt);
 
     switch (opt)
     {
     case 1:
-      getAllFiles();
+      char subject[50];
+      printf("Enter name of the table you want to open: \n");
+      scanf(" %49s", subject);
+      openTable(subject);
       break;
     case 2:
       createTable();
       break;
     case 3:
-      char subject[50];
-      printf("Enter name of table to search: \n");
-      scanf(" %49s", subject);
-      getFile(subject);
+
       break;
     case 4:
       break;
@@ -70,5 +71,33 @@ void tableMenu(Session *session)
       printf("Invalid option. Please try again.\n");
       break;
     }
-  } while (opt != 5);
+  } while (opt != 3);
+}
+
+void manageTableMenu(FILE *table, char *filePath)
+{
+
+  int opt;
+
+  do
+  {
+    printf("\n1. Load/Edit attendance\n2. Delete table\n3. Go back\n");
+
+    scanf("%d", &opt);
+
+    switch (opt)
+    {
+    case 1:
+      editAttendance(table, filePath);
+      break;
+    case 2:
+      deleteFile(table, filePath);
+      break;
+    case 3:
+      break;
+    default:
+      printf("Invalid option. Please try again.\n");
+      break;
+    }
+  } while (opt != 3);
 }

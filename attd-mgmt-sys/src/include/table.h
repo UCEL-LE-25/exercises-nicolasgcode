@@ -14,6 +14,10 @@ void loadDates();
 
 void loadStudents(Student students[], int classSize, int days);
 
+void openTable(char *subject);
+
 void loadEvents();
+
+void editAttendance();
 
 void printTable(FILE *f);

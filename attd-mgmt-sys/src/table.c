@@ -1,5 +1,6 @@
 #include "include/table.h"
 #include "include/file.h"
+#include "include/menus.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -17,10 +18,10 @@ void createTable()
   scanf("%d", &classSize);
   switch (opt)
   {
-  case 1:
+  case 0:
     days = 7;
     break;
-  case 2:
+  case 1:
     days = 15;
     break;
 
@@ -48,7 +49,6 @@ void createTable()
 
 void loadStudents(Student students[], int classSize, int days)
 {
-  int count = 0;
 
   printf("\nPlease, provide ID, name and lastname for each student.\n");
 
@@ -87,7 +87,7 @@ void printTable(FILE *f)
       {
 
         if (col == 0)
-          printf("%-12s", "ID");
+          printf("%-8s", "ID");
         else if (col == 1)
           printf("%-12s", "Nombre");
         else if (col == 2)
@@ -98,7 +98,7 @@ void printTable(FILE *f)
       else
       {
         if (col == 0)
-          printf("%-12s", token);
+          printf("%-8s", token);
         else if (col == 1)
           printf("%-12s", token);
         else if (col == 2)
@@ -107,11 +107,11 @@ void printTable(FILE *f)
         {
 
           if (strcmp(token, "1") == 0)
-            printf(GREEN "%-6s" RESET, "1");
+            printf(GREEN "%-4s" RESET, "1");
           else if (strcmp(token, "0") == 0)
-            printf(RED "%-6s" RESET, "0");
+            printf(RED "%-4s" RESET, "0");
           else
-            printf("%-6s", token);
+            printf("%-4s", token);
         }
       }
 
@@ -122,4 +122,72 @@ void printTable(FILE *f)
     printf("\n");
     row++;
   }
+}
+
+void openTable(char *subject)
+{
+  char filePath[256];
+  FILE *table = getFile(subject, filePath);
+  if (!table)
+    return;
+
+  printTable(table);
+
+  manageTableMenu(table, filePath);
+
+  fclose(table);
+}
+
+void editAttendance(FILE *table, char *filePath)
+{
+  Student students[MAX_STUDENTS];
+  int classSize = 0, days = 0;
+
+  if (!loadStudentsFromFile(table, students, &classSize, &days))
+  {
+    printf("No se pudo cargar la tabla.\n");
+    return;
+  }
+
+  int id, day, newVal;
+  printf("Ingrese ID del estudiante a editar: ");
+  scanf("%d", &id);
+
+  printf("Ingrese dia: (1 - %d): ", days);
+  scanf("%d", &day);
+
+  printf("Nuevo valor (1=presente, 0=ausente): ");
+  scanf("%d", &newVal);
+
+  int found = 0;
+  for (int i = 0; i < classSize; i++)
+  {
+    if (students[i].studentId == id)
+    {
+      found = 1;
+      if (day >= 1 && day <= days)
+      {
+        students[i].attendance[day - 1] = newVal;
+        printf("Asistencia actualizada para %s %s, Day %d\n",
+               students[i].name, students[i].lastName, day);
+      }
+      else
+      {
+        printf("Día inválido.\n");
+      }
+      break;
+    }
+  }
+
+  if (!found)
+  {
+    printf("ID de estudiante no encontrado.\n");
+    return;
+  }
+
+  writeFile(filePath, students, classSize, days);
+
+  printf("Archivo actualizado: %s\n", filePath);
+
+  printTable(table);
 }
