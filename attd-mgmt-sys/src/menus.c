@@ -4,6 +4,7 @@
 #include "include/table.h"
 #include "include/file.h"
 #include "include/validators.h"
+#include "include/student.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -78,22 +79,32 @@ void manageTableMenu(FILE *table, char *filePath)
 {
 
   int opt;
+  Student students[MAX_STUDENTS];
+  int classSize = 0, days = 0;
+
+  if (!loadStudentsFromFile(table, students, &classSize, &days))
+  {
+    printf("No se pudo cargar la tabla.\n");
+    return;
+  }
 
   do
   {
-    printf("\n1. Load/Edit attendance\n2. Delete table\n3. Go back\n");
+    printf("\n1. Load/Edit attendance\n2. Update student\n3. Delete table\n4. Go back\n");
 
     scanf("%d", &opt);
 
     switch (opt)
     {
     case 1:
-      editAttendance(table, filePath);
+      printf("Class size: %d, Days: %d\n", classSize, days);
+      editAttendance(table, students, days, classSize, filePath);
       break;
     case 2:
-      deleteFile(table, filePath);
+      updateStudent(table, students, days, classSize, filePath);
       break;
     case 3:
+      deleteFile(table, filePath);
       break;
     default:
       printf("Invalid option. Please try again.\n");

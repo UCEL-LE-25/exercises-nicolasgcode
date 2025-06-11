@@ -13,7 +13,7 @@ void getAllFiles();
 
 FILE *getFile(const char *subject, char *outPath);
 
-int backupFile(File *file, char *file_path);
+int backupFile(File *file, char *filePath);
 
 void deleteFile(FILE *table, char *filePath);
 

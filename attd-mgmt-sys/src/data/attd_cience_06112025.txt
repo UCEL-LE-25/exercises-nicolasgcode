@@ -1,0 +1,8 @@
+StudentId,Name,LastName,D1,D2
+123123,lurdes,gawrcia,0,0
+321321,lourdes,ali,0,0
+0,,,0,0
+0,,,0,0
+0,,,0,0
+0,,,0,0
+0,,,0,0

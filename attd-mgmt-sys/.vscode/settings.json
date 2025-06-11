@@ -1,0 +1,8 @@
+{
+  "files.associations": {
+    "student.h": "c",
+    "typedefs.h": "c",
+    "stdbool.h": "c",
+    "stdlib.h": "c"
+  }
+}

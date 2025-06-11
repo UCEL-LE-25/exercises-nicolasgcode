@@ -138,16 +138,8 @@ void openTable(char *subject)
   fclose(table);
 }
 
-void editAttendance(FILE *table, char *filePath)
+void editAttendance(FILE *table, Student students[], int days, int classSize, char *filePath)
 {
-  Student students[MAX_STUDENTS];
-  int classSize = 0, days = 0;
-
-  if (!loadStudentsFromFile(table, students, &classSize, &days))
-  {
-    printf("No se pudo cargar la tabla.\n");
-    return;
-  }
 
   int id, day, newVal;
   printf("Ingrese ID del estudiante a editar: ");

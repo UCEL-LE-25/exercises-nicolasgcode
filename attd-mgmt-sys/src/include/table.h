@@ -18,6 +18,6 @@ void openTable(char *subject);
 
 void loadEvents();
 
-void editAttendance();
+void editAttendance(FILE *table, Student students[], int classSize, int days, char *filePath);
 
 void printTable(FILE *f);
