@@ -130,7 +130,7 @@ void writeUserFile(User user)
   FILE *file = fopen(file_path, "ab");
   if (!file)
   {
-    printf("Error al abrir archivo de usuarios.\n");
+    printf("Error opening users file.\n");
     return;
   }
 
@@ -305,10 +305,9 @@ int loadStudentsFromFile(FILE *table, AttdTable *attdTable)
   int studentCount = 0;
   int dayCount = 0;
 
-  // Leer encabezado
   if (!fgets(line, sizeof(line), table))
   {
-    printf("No se pudo leer el encabezado\n");
+    printf("Couldn't read file header\n");
     return 0;
   }
 
@@ -347,7 +346,7 @@ int loadStudentsFromFile(FILE *table, AttdTable *attdTable)
       token = strtok(NULL, ",\n");
       if (!token)
       {
-        printf("Faltan días de asistencia en línea %d\n", studentCount + 1);
+        printf("Attendance days missing in line: %d\n", studentCount + 1);
         return 0;
       }
       attdTable->students[studentCount].attendance[d] = atoi(token);
@@ -358,7 +357,7 @@ int loadStudentsFromFile(FILE *table, AttdTable *attdTable)
 
   attdTable->classSize = studentCount;
   attdTable->days = dayCount;
-  rewind(table); // Opcional: por si se quiere usar el archivo de nuevo
+  rewind(table);
   return 1;
 }
 
@@ -377,11 +376,11 @@ void deleteFile(FILE *table, char *filePath)
   {
     if (remove(filePath) == 0)
     {
-      printf("Archivo eliminado correctamente: %s\n", filePath);
+      printf("File deleted successfully: %s\n", filePath);
     }
     else
     {
-      perror("Error al eliminar el archivo");
+      perror("Error deleting file");
     }
   }
 }
@@ -395,7 +394,7 @@ int loadUsersFromFile(loadedUsers *loaded)
   FILE *file = fopen(file_path, "rb");
   if (!file)
   {
-    printf("No se pudo abrir archivo para lectura.\n");
+    printf("Couldn't read file.\n");
     loaded->count = 0;
     return 0;
   }

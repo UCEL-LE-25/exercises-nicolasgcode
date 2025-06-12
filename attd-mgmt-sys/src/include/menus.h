@@ -10,8 +10,4 @@ void tableMenu(Session *session);
 
 void manageTableMenu(FILE *table, char *filePath, Session *session);
 
-void showMenu();
-
-void tableCreationMenu();
-
 void reportMenu();

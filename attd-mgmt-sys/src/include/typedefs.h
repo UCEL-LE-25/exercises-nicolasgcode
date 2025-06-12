@@ -49,7 +49,7 @@ typedef struct
   int studentId;
   char name[MAX_CHAR];
   char lastName[MAX_CHAR];
-  int attendance[MAX_DAYS]; // 0 - absent, 1 - present
+  int attendance[MAX_DAYS];
 
 } Student;
 

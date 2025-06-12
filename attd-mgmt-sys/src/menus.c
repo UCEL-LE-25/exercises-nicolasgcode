@@ -32,7 +32,7 @@ void mainMenu(Session *session)
 
   do
   {
-    printf("\n1. View tables\n2. Generate reports\n3. Exit\n");
+    printf("\n1. View tables\n2. Generate reports\n0. Exit\n");
 
     printf("\nSelect an option: ");
     scanf("%d", &opt);
@@ -44,7 +44,7 @@ void mainMenu(Session *session)
       break;
     }
 
-  } while (opt != 3);
+  } while (opt != 0);
 }
 
 void tableMenu(Session *session)
@@ -56,7 +56,9 @@ void tableMenu(Session *session)
   {
     getAllFiles();
 
-    printf("\n1. Open table\n2. Create new table\n3. Go back\n");
+    printf("\n1. Open table\n2. Create new table\n0. Go back\n");
+
+    printf("\nSelect an option: ");
 
     scanf("%d", &opt);
 
@@ -64,25 +66,21 @@ void tableMenu(Session *session)
     {
     case 1:
       char subject[50];
-      printf("Enter name of the table you want to open: \n");
+      printf("Enter name of the table you want to open: ");
       scanf(" %49s", subject);
       openTable(subject, session);
       break;
     case 2:
       createTable(session);
       break;
-    case 3:
+    case 0:
 
-      break;
-    case 4:
-      break;
-    case 5:
       break;
     default:
       printf("Invalid option. Please try again.\n");
       break;
     }
-  } while (opt != 3);
+  } while (opt != 0);
 }
 
 void manageTableMenu(FILE *table, char *filePath, Session *session)
@@ -94,7 +92,7 @@ void manageTableMenu(FILE *table, char *filePath, Session *session)
 
   if (!loadStudentsFromFile(table, &attdTable))
   {
-    printf("No se pudo cargar la tabla.\n");
+    printf("\nCouldn't load table\n");
     return;
   }
 

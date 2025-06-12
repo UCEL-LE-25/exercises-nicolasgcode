@@ -56,20 +56,20 @@ void updateStudent(FILE *table, AttdTable *attdTable, char *filePath)
     }
     else
     {
-      printf("Día inválido.\n");
+      printf("Invalid day.\n");
     }
     break;
   }
 
   if (!found)
   {
-    printf("ID de estudiante no encontrado.\n");
+    printf("Student ID not found.\n");
     return;
   }
 
   writeFile(filePath, attdTable);
 
-  printf("Archivo actualizado: %s\n", filePath);
+  printf("Updated file: %s\n", filePath);
 
   printTable(table);
 }

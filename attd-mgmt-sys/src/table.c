@@ -87,27 +87,24 @@ void printTable(FILE *f)
   char line[1024];
   int row = 0;
 
-  // Leer título: Attendance table for: ...
-  while (fgets(line, sizeof(line), f))
-  {
-    if (strlen(line) <= 1)
-      continue; // Salta líneas vacías
-    line[strcspn(line, "\n")] = 0;
-    printf(BOLD "%s\n" RESET, line); // Título en negrita
-    break;
-  }
-
-  // Leer CreatedAt: ...
   while (fgets(line, sizeof(line), f))
   {
     if (strlen(line) <= 1)
       continue;
     line[strcspn(line, "\n")] = 0;
-    printf(BOLD "%s\n\n" RESET, line); // Fecha en negrita
+    printf(BOLD "%s\n" RESET, line);
     break;
   }
 
-  // Leer e imprimir el resto de la tabla
+  while (fgets(line, sizeof(line), f))
+  {
+    if (strlen(line) <= 1)
+      continue;
+    line[strcspn(line, "\n")] = 0;
+    printf(BOLD "%s\n\n" RESET, line);
+    break;
+  }
+
   while (fgets(line, sizeof(line), f))
   {
     if (strlen(line) <= 1)
@@ -128,7 +125,7 @@ void printTable(FILE *f)
         else if (col == 2)
           printf("%-12s", "LastName");
         else
-          printf("%-4s", token); // D1, D2, ...
+          printf("%-4s", token);
       }
       else
       {
@@ -207,13 +204,13 @@ void editAttendance(FILE *table, AttdTable *attdTable, char *filePath)
 
   if (!found)
   {
-    printf("ID de estudiante no encontrado.\n");
+    printf("Student ID not found.\n");
     return;
   }
 
   writeFile(filePath, attdTable);
 
-  printf("Archivo actualizado: %s\n", filePath);
+  printf("Updated file: %s\n", filePath);
 
   printTable(table);
 }

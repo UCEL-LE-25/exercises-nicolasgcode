@@ -1,6 +1,0 @@
-
-Attendance table for: pro
-CreatedAt: 06/12/2025 by root
-StudentId,Name,LastName,D1,D2,D3,D4,D5,D6,D7
-123321,nicolas,garciua,0,0,0,0,0,0,0
-456789,lourdes,ali,0,0,0,0,0,0,0

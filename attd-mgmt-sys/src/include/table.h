@@ -6,17 +6,9 @@
 
 void createTable();
 
-void updateTable();
-
-void deleteTable();
-
-void loadDates();
-
 void loadStudents(AttdTable *table);
 
 void openTable(char *subject, Session *session);
-
-void loadEvents();
 
 void editAttendance(FILE *table, AttdTable *attdTable, char *filePath);
 
