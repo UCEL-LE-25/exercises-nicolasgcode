@@ -1,3 +1,0 @@
-StudentId,Name,LastName,D1,D2,D3,D4,D5,D6,D7
-123456,nicolas,garcia,0,0,0,0,0,0,0
-123456,lourdes,ali,0,0,0,0,0,0,0

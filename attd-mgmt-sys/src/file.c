@@ -12,8 +12,7 @@
 #include <sys/stat.h>
 #include <ctype.h>
 
-File createFile(char *subject, Student students[],
-                int classSize, int days)
+File createFile(AttdTable *table)
 {
 
   File file;
@@ -21,13 +20,11 @@ File createFile(char *subject, Student students[],
   char filename[256];
   char file_path[1024];
 
-  Date date = getTodaysDate();
-
-  printf("subject %s ", subject);
-  printf("date: %02d%02d%04d", date.month, date.day, date.year);
+  printf("subject %s ", table->subject);
+  printf("date: %02d%02d%04d", table->createdAt.month, table->createdAt.day, table->createdAt.year);
 
   snprintf(filename, sizeof(filename), "%s%s_%02d%02d%04d.txt",
-           ATTD_PREFIX, subject, date.month, date.day, date.year);
+           ATTD_PREFIX, table->subject, table->createdAt.month, table->createdAt.day, table->createdAt.year);
   printf("filename %s", filename);
 
   strncpy(file.name, filename, sizeof(file.name) - 1);
@@ -39,7 +36,7 @@ File createFile(char *subject, Student students[],
 
   createPhysicalFile(file_path);
 
-  writeFile(file_path, students, classSize, days);
+  writeFile(file_path, table);
 
   backupFile(&file, file_path);
 
@@ -142,26 +139,28 @@ void writeUserFile(User user)
   fclose(file);
 }
 
-void writeFile(char *file_path, Student students[], int classSize, int days)
+void writeFile(char *file_path, AttdTable *table)
 {
   FILE *fp = fopen(file_path, "w");
   if (fp)
   {
+    fprintf(fp, "\nAttendance table for: %s\nCreatedAt: %02d/%02d/%04d by %s\n",
+            table->subject, table->createdAt.month, table->createdAt.day, table->createdAt.year, table->teacher->username);
     fprintf(fp, "StudentId,Name,LastName");
-    for (int day = 1; day <= days; day++)
+    for (int day = 1; day <= table->days; day++)
     {
       fprintf(fp, ",D%d", day);
     }
     fprintf(fp, "\n");
 
-    for (int i = 0; i < classSize; i++)
+    for (int i = 0; i < table->classSize; i++)
     {
-      fprintf(fp, "%d,%s,%s", students[i].studentId,
-              students[i].name, students[i].lastName);
+      fprintf(fp, "%d,%s,%s", table->students[i].studentId,
+              table->students[i].name, table->students[i].lastName);
 
-      for (int j = 0; j < days; j++)
+      for (int j = 0; j < table->days; j++)
       {
-        fprintf(fp, ",%d", students[i].attendance[j]);
+        fprintf(fp, ",%d", table->students[i].attendance[j]);
       }
       fprintf(fp, "\n");
     }
@@ -298,16 +297,16 @@ FILE *getFile(const char *subject, char *outPath)
   return f;
 }
 
-int loadStudentsFromFile(FILE *file, Student *students, int *classSize, int *days)
+int loadStudentsFromFile(FILE *table, AttdTable *attdTable)
 {
-  rewind(file);
+  rewind(table);
 
   char line[512];
   int studentCount = 0;
   int dayCount = 0;
 
   // Leer encabezado
-  if (!fgets(line, sizeof(line), file))
+  if (!fgets(line, sizeof(line), table))
   {
     printf("No se pudo leer el encabezado\n");
     return 0;
@@ -323,7 +322,7 @@ int loadStudentsFromFile(FILE *file, Student *students, int *classSize, int *day
     columnIndex++;
   }
 
-  while (fgets(line, sizeof(line), file))
+  while (fgets(line, sizeof(line), table))
   {
     if (studentCount >= MAX_STUDENTS)
       break;
@@ -331,17 +330,17 @@ int loadStudentsFromFile(FILE *file, Student *students, int *classSize, int *day
     char *token = strtok(line, ",");
     if (!token)
       break;
-    students[studentCount].studentId = atoi(token);
+    attdTable->students[studentCount].studentId = atoi(token);
 
     token = strtok(NULL, ",");
     if (!token)
       break;
-    strcpy(students[studentCount].name, token);
+    strcpy(attdTable->students[studentCount].name, token);
 
     token = strtok(NULL, ",");
     if (!token)
       break;
-    strcpy(students[studentCount].lastName, token);
+    strcpy(attdTable->students[studentCount].lastName, token);
 
     for (int d = 0; d < dayCount; d++)
     {
@@ -351,15 +350,15 @@ int loadStudentsFromFile(FILE *file, Student *students, int *classSize, int *day
         printf("Faltan días de asistencia en línea %d\n", studentCount + 1);
         return 0;
       }
-      students[studentCount].attendance[d] = atoi(token);
+      attdTable->students[studentCount].attendance[d] = atoi(token);
     }
 
     studentCount++;
   }
 
-  *classSize = studentCount;
-  *days = dayCount;
-  rewind(file); // Opcional: por si se quiere usar el archivo de nuevo
+  attdTable->classSize = studentCount;
+  attdTable->days = dayCount;
+  rewind(table); // Opcional: por si se quiere usar el archivo de nuevo
   return 1;
 }
 

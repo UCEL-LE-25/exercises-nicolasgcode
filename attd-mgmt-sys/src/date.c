@@ -1,6 +1,7 @@
 #include "./include/date.h"
 
-Date getTodaysDate() {
+Date getTodaysDate()
+{
   Date date = {0, 0, 0};
 
   time_t t = time(NULL);

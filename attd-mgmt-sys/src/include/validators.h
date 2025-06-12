@@ -15,7 +15,7 @@ void checkName(char name[]);
 void checkLastname(char lastname[]);
 void checkId(int id);
 void checkDni(int dni);
-void checkIdExists(int id, Student students[], int classSize);
+void checkIdExists(int id, AttdTable *table);
 void checkDniExists(int dni, loadedUsers *loaded);
 void checkDni(int dni);
 void checkUsernameExists(char username[], loadedUsers *loaded);

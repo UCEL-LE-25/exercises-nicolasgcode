@@ -12,12 +12,12 @@ void deleteTable();
 
 void loadDates();
 
-void loadStudents(Student students[], int classSize, int days);
+void loadStudents(AttdTable *table);
 
 void openTable(char *subject, Session *session);
 
 void loadEvents();
 
-void editAttendance(FILE *table, Student students[], int classSize, int days, char *filePath);
+void editAttendance(FILE *table, AttdTable *attdTable, char *filePath);
 
 void printTable(FILE *f);

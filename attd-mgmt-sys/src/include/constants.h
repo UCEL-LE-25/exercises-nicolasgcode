@@ -15,4 +15,5 @@
 #define BACKUP_SUFFIX "_bkp"
 #define GREEN "\033[0;32m"
 #define RED "\033[0;31m"
+#define BOLD "\033[1m"
 #define RESET "\033[0m"

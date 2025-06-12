@@ -69,7 +69,7 @@ void tableMenu(Session *session)
       openTable(subject, session);
       break;
     case 2:
-      createTable();
+      createTable(session);
       break;
     case 3:
 
@@ -89,10 +89,10 @@ void manageTableMenu(FILE *table, char *filePath, Session *session)
 {
 
   int opt;
-  Student students[MAX_STUDENTS];
-  int classSize = 0, days = 0;
 
-  if (!loadStudentsFromFile(table, students, &classSize, &days))
+  AttdTable attdTable;
+
+  if (!loadStudentsFromFile(table, &attdTable))
   {
     printf("No se pudo cargar la tabla.\n");
     return;
@@ -107,10 +107,10 @@ void manageTableMenu(FILE *table, char *filePath, Session *session)
     switch (opt)
     {
     case 1:
-      editAttendance(table, students, days, classSize, filePath);
+      editAttendance(table, &attdTable, filePath);
       break;
     case 2:
-      updateStudent(table, students, days, classSize, filePath);
+      updateStudent(table, &attdTable, filePath);
       break;
     case 3:
       // delete student

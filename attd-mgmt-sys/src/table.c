@@ -1,15 +1,17 @@
 #include "include/table.h"
 #include "include/file.h"
+#include "include/date.h"
 #include "include/menus.h"
 #include "include/validators.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-void createTable()
+void createTable(Session *session)
 {
   int opt;
   int days;
   int classSize;
+  Date date = getTodaysDate();
 
   char subject[50];
 
@@ -35,21 +37,19 @@ void createTable()
   printf("Enter subject: ");
   scanf(" %49s", &subject);
 
-  Student *students = malloc(classSize * sizeof(Student));
-  if (students == NULL)
-  {
-    perror("Failed to allocate memory for students");
-    return;
-  }
+  AttdTable table;
+  table.teacher = session->currentUser;
+  table.createdAt = date;
+  strncpy(table.subject, subject, MAX_CHAR - 1);
+  table.classSize = classSize;
+  table.days = days;
 
-  loadStudents(students, classSize, days);
+  loadStudents(&table);
 
-  createFile(subject, students, classSize, days);
-
-  free(students);
+  createFile(&table);
 }
 
-void loadStudents(Student students[], int classSize, int days)
+void loadStudents(AttdTable *table)
 {
   int id;
   char name[MAX_CHAR];
@@ -57,39 +57,62 @@ void loadStudents(Student students[], int classSize, int days)
 
   printf("\nPlease, provide ID, name and lastname for each student.\n");
 
-  for (int i = 0; i < classSize; i++)
+  for (int i = 0; i < table->classSize; i++)
   {
     printf("Student %d: \n", i + 1);
     printf("ID: ");
     scanf("%d", &id);
-    checkIdExists(id, students, classSize);
-    students[i].studentId = id;
+    checkIdExists(id, table);
+    table->students[i].studentId = id;
 
     printf("Name: ");
     scanf(" %49s", name);
     checkName(name);
-    strncpy(students[i].name, name, MAX_CHAR - 1);
+    strncpy(table->students[i].name, name, MAX_CHAR - 1);
 
     printf("Last Name: ");
     scanf(" %49s", lastName);
     checkLastname(lastName);
-    strncpy(students[i].lastName, lastName, MAX_CHAR - 1);
+    strncpy(table->students[i].lastName, lastName, MAX_CHAR - 1);
 
-    for (int j = 0; j < days; j++)
+    for (int j = 0; j < table->days; j++)
     {
-      students[i].attendance[j] = 0;
+      table->students[i].attendance[j] = 0;
     }
   }
 }
 
 void printTable(FILE *f)
 {
-
   char line[1024];
   int row = 0;
 
+  // Leer título: Attendance table for: ...
   while (fgets(line, sizeof(line), f))
   {
+    if (strlen(line) <= 1)
+      continue; // Salta líneas vacías
+    line[strcspn(line, "\n")] = 0;
+    printf(BOLD "%s\n" RESET, line); // Título en negrita
+    break;
+  }
+
+  // Leer CreatedAt: ...
+  while (fgets(line, sizeof(line), f))
+  {
+    if (strlen(line) <= 1)
+      continue;
+    line[strcspn(line, "\n")] = 0;
+    printf(BOLD "%s\n\n" RESET, line); // Fecha en negrita
+    break;
+  }
+
+  // Leer e imprimir el resto de la tabla
+  while (fgets(line, sizeof(line), f))
+  {
+    if (strlen(line) <= 1)
+      continue;
+
     line[strcspn(line, "\n")] = 0;
     char *token = strtok(line, ",");
     int col = 0;
@@ -97,28 +120,26 @@ void printTable(FILE *f)
     while (token)
     {
       if (row == 0)
-      {
-
+      { // Encabezado de la tabla
         if (col == 0)
-          printf("%-8s", "ID");
+          printf("%-12s", "StudentId");
         else if (col == 1)
-          printf("%-12s", "Nombre");
+          printf("%-12s", "Name");
         else if (col == 2)
-          printf("%-12s", "Apellido");
+          printf("%-12s", "LastName");
         else
-          printf("%-4s", token);
+          printf("%-4s", token); // D1, D2, ...
       }
       else
       {
         if (col == 0)
-          printf("%-8s", token);
+          printf("%-12s", token);
         else if (col == 1)
           printf("%-12s", token);
         else if (col == 2)
           printf("%-12s", token);
         else
         {
-
           if (strcmp(token, "1") == 0)
             printf(GREEN "%-4s" RESET, "1");
           else if (strcmp(token, "0") == 0)
@@ -151,30 +172,30 @@ void openTable(char *subject, Session *session)
   fclose(table);
 }
 
-void editAttendance(FILE *table, Student students[], int days, int classSize, char *filePath)
+void editAttendance(FILE *table, AttdTable *attdTable, char *filePath)
 {
 
   int id, day, newVal;
   printf("Ingrese ID del estudiante a editar: ");
   scanf("%d", &id);
 
-  printf("Ingrese dia: (1 - %d): ", days);
+  printf("Ingrese dia: (1 - %d): ", attdTable->days);
   scanf("%d", &day);
 
   printf("Nuevo valor (1=presente, 0=ausente): ");
   scanf("%d", &newVal);
 
   int found = 0;
-  for (int i = 0; i < classSize; i++)
+  for (int i = 0; i < attdTable->classSize; i++)
   {
-    if (students[i].studentId == id)
+    if (attdTable->students[i].studentId == id)
     {
       found = 1;
-      if (day >= 1 && day <= days)
+      if (day >= 1 && day <= attdTable->days)
       {
-        students[i].attendance[day - 1] = newVal;
+        attdTable->students[i].attendance[day - 1] = newVal;
         printf("Asistencia actualizada para %s %s, Day %d\n",
-               students[i].name, students[i].lastName, day);
+               attdTable->students[i].name, attdTable->students[i].lastName, day);
       }
       else
       {
@@ -190,7 +211,7 @@ void editAttendance(FILE *table, Student students[], int days, int classSize, ch
     return;
   }
 
-  writeFile(filePath, students, classSize, days);
+  writeFile(filePath, attdTable);
 
   printf("Archivo actualizado: %s\n", filePath);
 

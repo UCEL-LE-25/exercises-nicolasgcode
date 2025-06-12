@@ -3,7 +3,7 @@
 #include "include/table.h"
 #include <string.h>
 
-void updateStudent(FILE *table, Student students[], int days, int classSize, char *filePath)
+void updateStudent(FILE *table, AttdTable *attdTable, char *filePath)
 {
   int opt, id, newId;
 
@@ -13,9 +13,9 @@ void updateStudent(FILE *table, Student students[], int days, int classSize, cha
   scanf("%d", &id);
 
   int found = 0;
-  for (int i = 0; i < classSize; i++)
+  for (int i = 0; i < attdTable->classSize; i++)
   {
-    if (students[i].studentId == id)
+    if (attdTable->students[i].studentId == id)
     {
       found = 1;
       printf("What do you wish to edit? (0-Student ID | 1-Name | 2-Lastname | 3-All data)\n");
@@ -26,28 +26,28 @@ void updateStudent(FILE *table, Student students[], int days, int classSize, cha
       case 0:
         printf("New student ID: ");
         scanf("%d", &newId);
-        students[i].studentId = newId;
+        attdTable->students[i].studentId = newId;
         break;
       case 1:
         printf("New name: ");
         scanf(" %49[^\n]", newName);
-        strncpy(students[i].name, newName, MAX_CHAR - 1);
+        strncpy(attdTable->students[i].name, newName, MAX_CHAR - 1);
         break;
       case 2:
         printf("New last name: ");
         scanf(" %49[^\n]", newLastName);
-        strncpy(students[i].lastName, newLastName, MAX_CHAR - 1);
+        strncpy(attdTable->students[i].lastName, newLastName, MAX_CHAR - 1);
         break;
       case 3:
         printf("New student ID: ");
         scanf("%d", &newId);
-        students[i].studentId = newId;
+        attdTable->students[i].studentId = newId;
         printf("New name: ");
         scanf(" %49[^\n]", newName);
-        strncpy(students[i].name, newName, MAX_CHAR - 1);
+        strncpy(attdTable->students[i].name, newName, MAX_CHAR - 1);
         printf("New last name: ");
         scanf(" %49[^\n]", newLastName);
-        strncpy(students[i].lastName, newLastName, MAX_CHAR - 1);
+        strncpy(attdTable->students[i].lastName, newLastName, MAX_CHAR - 1);
         break;
       default:
         printf("Invalid option. Please try again.\n");
@@ -67,7 +67,7 @@ void updateStudent(FILE *table, Student students[], int days, int classSize, cha
     return;
   }
 
-  writeFile(filePath, students, classSize, days);
+  writeFile(filePath, attdTable);
 
   printf("Archivo actualizado: %s\n", filePath);
 

@@ -51,19 +51,20 @@ void checkLastname(char *lastname)
   }
 }
 
-void checkIdExists(int id, Student students[], int classSize)
+void checkIdExists(int id, AttdTable *table)
 {
-  for (int i = 0; i < classSize; i++)
+  for (int i = 0; i < table->classSize; i++)
   {
-    if (students[i].studentId == id)
+    if (table->students[i].studentId == id)
     {
       printf("\nID already exists.\nPlease enter a different ID: ");
       scanf("%d", &id);
       checkId(id);
-      checkIdExists(id, students, classSize);
+      checkIdExists(id, table);
       return;
     }
   }
+  checkId(id);
 }
 
 bool userFileExists()

@@ -59,3 +59,13 @@ typedef struct
   char location[MAX_CHAR];
   Date createdAt;
 } File;
+
+typedef struct
+{
+  User *teacher;
+  char subject[MAX_CHAR];
+  int classSize;
+  int days;
+  Date createdAt;
+  Student students[MAX_STUDENTS];
+} AttdTable;
