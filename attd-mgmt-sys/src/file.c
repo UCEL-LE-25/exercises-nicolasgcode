@@ -2,12 +2,15 @@
 #include "include/table.h"
 #include "include/date.h"
 #include "include/menus.h"
+#include "include/typedefs.h"
+#include "include/user.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include <dirent.h>
 #include <sys/stat.h>
+#include <ctype.h>
 
 File createFile(char *subject, Student students[],
                 int classSize, int days)
@@ -41,6 +44,41 @@ File createFile(char *subject, Student students[],
   backupFile(&file, file_path);
 
   return file;
+}
+
+void createUserFile()
+{
+
+  File file;
+
+  char filename[256];
+  char file_path[1024];
+
+  snprintf(filename, sizeof(filename), "%s.dat",
+           USERS_FILE);
+  printf("filename %s", filename);
+
+  strncpy(file.name, filename, sizeof(file.name) - 1);
+  file.name[sizeof(file.name) - 1] = '\0';
+
+  strncpy(file.location, DEFAULT_USER_FILE_PATH, sizeof(file.location) - 1);
+
+  snprintf(file_path, sizeof(file_path), "%s%s", file.location, file.name);
+
+  printf("Creating file: %s\n", file_path);
+
+  FILE *fp = fopen(file_path, "wb");
+
+  if (!fp)
+  {
+    perror("Error creating user file");
+    abort();
+  }
+
+  User root = createDefaultUser();
+  fwrite(&root, sizeof(User), 1, fp);
+  fclose(fp);
+  printf("Default root user created: %s\n", root.username);
 }
 
 int backupFile(File *file, char *file_path)
@@ -84,6 +122,24 @@ void createPhysicalFile(char *file_path)
     perror("Error creating file");
     abort();
   }
+}
+
+void writeUserFile(User user)
+{
+  char file_path[1024];
+  snprintf(file_path, sizeof(file_path), "%s%s.dat",
+           DEFAULT_USER_FILE_PATH, USERS_FILE);
+
+  FILE *file = fopen(file_path, "ab");
+  if (!file)
+  {
+    printf("Error al abrir archivo de usuarios.\n");
+    return;
+  }
+
+  fwrite(&user, sizeof(User), 1, file);
+
+  fclose(file);
 }
 
 void writeFile(char *file_path, Student students[], int classSize, int days)
@@ -309,14 +365,49 @@ int loadStudentsFromFile(FILE *file, Student *students, int *classSize, int *day
 
 void deleteFile(FILE *table, char *filePath)
 {
+  char confirm;
+
   fclose(table);
 
-  if (remove(filePath) == 0)
+  printf("Do you really want to delete the file? (y/n): ");
+  scanf(" %c", &confirm);
+
+  confirm = tolower(confirm);
+
+  if (confirm == 'y')
   {
-    printf("Archivo eliminado correctamente: %s\n", filePath);
+    if (remove(filePath) == 0)
+    {
+      printf("Archivo eliminado correctamente: %s\n", filePath);
+    }
+    else
+    {
+      perror("Error al eliminar el archivo");
+    }
   }
-  else
+}
+
+int loadUsersFromFile(loadedUsers *loaded)
+{
+  char file_path[1024];
+  snprintf(file_path, sizeof(file_path), "%s%s.dat",
+           DEFAULT_USER_FILE_PATH, USERS_FILE);
+
+  FILE *file = fopen(file_path, "rb");
+  if (!file)
   {
-    perror("Error al eliminar el archivo");
+    printf("No se pudo abrir archivo para lectura.\n");
+    loaded->count = 0;
+    return 0;
   }
+
+  loaded->count = 0;
+  while (fread(&loaded->users[loaded->count], sizeof(User), 1, file) == 1 &&
+         loaded->count < MAX_USERS)
+  {
+    loaded->count++;
+  }
+
+  fclose(file);
+  return loaded->count;
 }

@@ -3,6 +3,9 @@
     "student.h": "c",
     "typedefs.h": "c",
     "stdbool.h": "c",
-    "stdlib.h": "c"
+    "stdlib.h": "c",
+    "constants.h": "c",
+    "string.h": "c",
+    "validators.h": "c"
   }
 }

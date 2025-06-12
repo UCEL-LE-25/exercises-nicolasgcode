@@ -2,13 +2,13 @@
 #include "./typedefs.h"
 #include <stdio.h>
 
-void loginMenu(Session *session);
+void program(Session *session, loadedUsers *users);
 
 void mainMenu(Session *session);
 
 void tableMenu(Session *session);
 
-void manageTableMenu(FILE *table, char *filePath);
+void manageTableMenu(FILE *table, char *filePath, Session *session);
 
 void showMenu();
 

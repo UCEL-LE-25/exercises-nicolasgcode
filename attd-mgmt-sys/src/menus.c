@@ -7,12 +7,23 @@
 #include "include/student.h"
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
-void loginMenu(Session *session)
+void program(Session *session, loadedUsers *users)
 {
-
-  login(session) ? mainMenu(session)
-                 : printf("Login failed. Please try again.\n");
+  if (!userFileExists())
+  {
+    createUserFile();
+  }
+  loadUsersFromFile(users);
+  char opt;
+  printf("\nWelcome to Attendify.\n");
+  printf("Already have an account? (y/n): ");
+  scanf(" %c", &opt);
+  opt = tolower(opt);
+  opt == 'y' ? login(session, users) ? mainMenu(session)
+                                     : printf("Login failed. Please try again.\n")
+             : signUp(session, users);
 }
 
 void mainMenu(Session *session)
@@ -21,8 +32,7 @@ void mainMenu(Session *session)
 
   do
   {
-
-    printf("\n%s", renderMenu(session));
+    printf("\n1. View tables\n2. Generate reports\n3. Exit\n");
 
     printf("\nSelect an option: ");
     scanf("%d", &opt);
@@ -56,7 +66,7 @@ void tableMenu(Session *session)
       char subject[50];
       printf("Enter name of the table you want to open: \n");
       scanf(" %49s", subject);
-      openTable(subject);
+      openTable(subject, session);
       break;
     case 2:
       createTable();
@@ -75,7 +85,7 @@ void tableMenu(Session *session)
   } while (opt != 3);
 }
 
-void manageTableMenu(FILE *table, char *filePath)
+void manageTableMenu(FILE *table, char *filePath, Session *session)
 {
 
   int opt;
@@ -90,25 +100,35 @@ void manageTableMenu(FILE *table, char *filePath)
 
   do
   {
-    printf("\n1. Load/Edit attendance\n2. Update student\n3. Delete table\n4. Go back\n");
+    printf("\n%s", renderMenu(session));
 
     scanf("%d", &opt);
 
     switch (opt)
     {
     case 1:
-      printf("Class size: %d, Days: %d\n", classSize, days);
       editAttendance(table, students, days, classSize, filePath);
       break;
     case 2:
       updateStudent(table, students, days, classSize, filePath);
       break;
     case 3:
-      deleteFile(table, filePath);
+      // delete student
+      break;
+    case 4:
+      if (checkAccessLevel(session))
+      {
+        deleteFile(table, filePath);
+        printf("Table deleted successfully.\n");
+      }
+      else
+      {
+        printf("Access denied. Please log in with an admin account to perform delete operations.\n");
+      }
       break;
     default:
       printf("Invalid option. Please try again.\n");
       break;
     }
-  } while (opt != 3);
+  } while (opt != 0);
 }

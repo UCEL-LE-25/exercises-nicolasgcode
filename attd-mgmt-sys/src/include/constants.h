@@ -1,12 +1,15 @@
 #pragma once
 #define MAX_STUDENTS 100
+#define MAX_USERS 30
 #define MAX_CHAR 50
-#define MAX_DAYS 30
-#define GR_TABLE_COLS 3       // PARTIAL SCORE  - FINAL SCORE - AVERAGE
-#define ACAD_CAL_TABLE_COLS 2 // DATE  - EVENT
+#define MAX_USERNAME 20
+#define MAX_PSW 32
+#define MAX_DAYS 15
 #define DEFAULT_BKP_PATH "src/data/backup/"
 #define DEFAULT_FILE_PATH "src/data/"
+#define DEFAULT_USER_FILE_PATH "src/data/users/"
 #define ATTD_PREFIX "attd_"
+#define USERS_FILE "users"
 #define GR_PREFIX "gr_"
 #define REPORT_PREFIX "rp_"
 #define BACKUP_SUFFIX "_bkp"

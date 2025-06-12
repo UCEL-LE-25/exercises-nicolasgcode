@@ -4,11 +4,23 @@
 
 void pathExists(char *file_path);
 
-void fileExists(File file);
+bool userFileExists();
 
-bool userExists(char username[], char password[], Session *session);
+bool userExists(loadedUsers *loaded, loginData data, Session *session);
 
-void checkAccessLevel(User user);
+bool checkAccessLevel(Session *session);
+
+void checkId(int id);
+void checkName(char name[]);
+void checkLastname(char lastname[]);
+void checkId(int id);
+void checkDni(int dni);
+void checkIdExists(int id, Student students[], int classSize);
+void checkDniExists(int dni, loadedUsers *loaded);
+void checkDni(int dni);
+void checkUsernameExists(char username[], loadedUsers *loaded);
+void checkUsername(char username[]);
+void checkPassword(char password[]);
 
 void backupExists(File file);
 

@@ -1,6 +1,7 @@
 #include "include/table.h"
 #include "include/file.h"
 #include "include/menus.h"
+#include "include/validators.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -16,6 +17,7 @@ void createTable()
   scanf("%d", &opt);
   printf("How many students are in the class? (max %d): ", MAX_STUDENTS);
   scanf("%d", &classSize);
+
   switch (opt)
   {
   case 0:
@@ -49,6 +51,9 @@ void createTable()
 
 void loadStudents(Student students[], int classSize, int days)
 {
+  int id;
+  char name[MAX_CHAR];
+  char lastName[MAX_CHAR];
 
   printf("\nPlease, provide ID, name and lastname for each student.\n");
 
@@ -56,11 +61,19 @@ void loadStudents(Student students[], int classSize, int days)
   {
     printf("Student %d: \n", i + 1);
     printf("ID: ");
-    scanf("%d", &students[i].studentId);
+    scanf("%d", &id);
+    checkIdExists(id, students, classSize);
+    students[i].studentId = id;
+
     printf("Name: ");
-    scanf(" %49s", students[i].name);
+    scanf(" %49s", name);
+    checkName(name);
+    strncpy(students[i].name, name, MAX_CHAR - 1);
+
     printf("Last Name: ");
-    scanf(" %49s", students[i].lastName);
+    scanf(" %49s", lastName);
+    checkLastname(lastName);
+    strncpy(students[i].lastName, lastName, MAX_CHAR - 1);
 
     for (int j = 0; j < days; j++)
     {
@@ -124,7 +137,7 @@ void printTable(FILE *f)
   }
 }
 
-void openTable(char *subject)
+void openTable(char *subject, Session *session)
 {
   char filePath[256];
   FILE *table = getFile(subject, filePath);
@@ -133,7 +146,7 @@ void openTable(char *subject)
 
   printTable(table);
 
-  manageTableMenu(table, filePath);
+  manageTableMenu(table, filePath, session);
 
   fclose(table);
 }

@@ -16,12 +16,25 @@ typedef struct
 
 typedef struct
 {
-  int id;
+  int dni;
   char username[50];
-  char password[50];
+  unsigned int pswHash;
   ROLE role;
 
 } User;
+
+typedef struct
+{
+  char username[MAX_CHAR];
+  char password[MAX_CHAR];
+
+} loginData;
+
+typedef struct
+{
+  User users[MAX_USERS];
+  int count;
+} loadedUsers;
 
 typedef struct
 {
@@ -46,35 +59,3 @@ typedef struct
   char location[MAX_CHAR];
   Date createdAt;
 } File;
-
-typedef struct
-{
-
-  int tableId;
-  int days;
-  int numStudents;
-  Date genDate;
-
-  Student students[];
-
-} AttdTable;
-
-typedef struct
-{
-
-  int tableId;
-  int cols[GR_TABLE_COLS];
-  int numStudents;
-  Date genDate;
-
-  Student students[];
-
-} GrTable; // grade table
-
-typedef struct
-{
-  int tableId;
-  int cols[ACAD_CAL_TABLE_COLS];
-  char event[MAX_CHAR];
-  Date date[];
-} AcadCalTable; // Academic Calendar Table

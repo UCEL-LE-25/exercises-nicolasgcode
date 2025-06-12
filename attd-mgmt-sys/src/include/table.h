@@ -14,7 +14,7 @@ void loadDates();
 
 void loadStudents(Student students[], int classSize, int days);
 
-void openTable(char *subject);
+void openTable(char *subject, Session *session);
 
 void loadEvents();
 

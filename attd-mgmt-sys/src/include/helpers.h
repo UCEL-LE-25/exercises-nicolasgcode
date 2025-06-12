@@ -5,4 +5,4 @@ char *roleToString(ROLE role);
 
 char *renderMenu(Session *session);
 
-void hashPsw();
+unsigned int hashPsw(char *password);

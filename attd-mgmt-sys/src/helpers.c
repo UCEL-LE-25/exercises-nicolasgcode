@@ -34,11 +34,11 @@ char *renderMenu(Session *session)
 
   if (strcmp(roleStr, "Admin") == 0)
   {
-    strcat(menuDisplay, "1.Manage tables\n2.Manage users\n3. Exit\n");
+    strcat(menuDisplay, "\n1. Load/Edit attendance\n2. Update student\n3. Delete student\n4. Delete table\n0. Go back\n");
   }
   else if (strcmp(roleStr, "Teacher") == 0)
   {
-    strcat(menuDisplay, "1. View tables\n2. Generate reports\n3. Exit\n");
+    strcat(menuDisplay, "1. Load/Edit attendance\n2. Update student\n0. Go back\n");
   }
   else
   {
@@ -46,4 +46,13 @@ char *renderMenu(Session *session)
   }
 
   return menuDisplay;
+}
+
+unsigned int hashPsw(char *password)
+{
+  unsigned int hash = 5381;
+  int c;
+  while ((c = *password++))
+    hash = ((hash << 5) + hash) + c;
+  return hash;
 }
