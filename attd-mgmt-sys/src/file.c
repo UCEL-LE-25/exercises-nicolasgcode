@@ -148,7 +148,6 @@ void writeFile(char *file_path, AttdTable *table)
     abort();
   }
 
-  // Solo encabezado CSV
   fprintf(fp, "StudentId,Name,LastName");
   for (int day = 1; day <= table->days; day++)
   {
@@ -156,7 +155,6 @@ void writeFile(char *file_path, AttdTable *table)
   }
   fprintf(fp, "\n");
 
-  // Datos de cada estudiante
   for (int i = 0; i < table->classSize; i++)
   {
     fprintf(fp, "%d,%s,%s", table->students[i].studentId,
@@ -304,14 +302,12 @@ int loadStudentsFromFile(FILE *table, AttdTable *attdTable)
   int studentCount = 0;
   int dayCount = 0;
 
-  // Leer la línea de encabezado CSV (StudentId,Name,LastName,D1,D2,...)
   if (!fgets(line, sizeof(line), table))
   {
-    printf("No se pudo leer el encabezado\n");
+    printf("Couldn't read header.\n");
     return 0;
   }
 
-  // Contar días a partir de la cantidad de columnas después de LastName (3 primeras columnas)
   int columnCount = 0;
   char *token;
   char headerCopy[512];
@@ -326,13 +322,12 @@ int loadStudentsFromFile(FILE *table, AttdTable *attdTable)
 
   if (columnCount < 3)
   {
-    printf("Encabezado inválido, faltan columnas\n");
+    printf("Invalid header, columns missing.\n");
     return 0;
   }
 
-  dayCount = columnCount - 3; // Días desde la columna 4 en adelante
+  dayCount = columnCount - 3;
 
-  // Leer cada línea de estudiante
   while (fgets(line, sizeof(line), table))
   {
     if (studentCount >= MAX_STUDENTS)
@@ -341,7 +336,7 @@ int loadStudentsFromFile(FILE *table, AttdTable *attdTable)
     char *lineCopy = strdup(line);
     if (!lineCopy)
     {
-      perror("No se pudo duplicar la línea");
+      perror("Couldn't read line.");
       return 0;
     }
 
@@ -374,7 +369,7 @@ int loadStudentsFromFile(FILE *table, AttdTable *attdTable)
       token = strtok(NULL, ",\r\n");
       if (!token)
       {
-        printf("Faltan días en línea del estudiante #%d\n", studentCount + 1);
+        printf("There are days missing for student: #%d\n", studentCount + 1);
         free(lineCopy);
         return 0;
       }

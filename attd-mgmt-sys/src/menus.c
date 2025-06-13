@@ -27,34 +27,6 @@ void program(Session *session, loadedUsers *users)
              : signUp(session, users);
 }
 
-// void mainMenu(Session *session)
-// {
-//   int opt;
-
-//   do
-//   {
-//     printf("\n1. View tables\n2. Generate reports\n0. Exit\n");
-
-//     printf("\nSelect an option: ");
-//     scanf("%d", &opt);
-
-//     switch (opt)
-//     {
-//     case 1:
-//       tableMenu(session);
-//       break;
-//     case 2:
-//       char subject[MAX_CHAR];
-//       getAllFiles();
-//       printf("Enter name of the table you want to open: ");
-//       scanf(" %49s", subject);
-//       openTable(subject, session);
-//       break;
-//     }
-
-//   } while (opt != 0);
-// }
-
 void tableMenu(Session *session)
 {
 
@@ -65,7 +37,7 @@ void tableMenu(Session *session)
 
     getAllFiles();
 
-    printf("\n1. Open table\n2. Create new table\n0. Go back\n");
+    printf("\n1. Open table\n2. Create new table\n0. Exit\n");
 
     printf("\nSelect an option: ");
 
@@ -98,7 +70,6 @@ void manageTableMenu(FILE *table, char *filePath, Session *session)
   int opt;
 
   AttdTable attdTable = {0};
-  printf("Table days %d", attdTable.days);
 
   if (!loadStudentsFromFile(table, &attdTable))
   {
@@ -106,11 +77,10 @@ void manageTableMenu(FILE *table, char *filePath, Session *session)
     return;
   }
 
-  printf("Table days %d", attdTable.days);
-
   do
   {
     printf("\n%s", renderMenu(session));
+    printf("\nSelect an option: ");
 
     scanf("%d", &opt);
 

@@ -159,7 +159,7 @@ void editAttendance(FILE *table, AttdTable *attdTable, char *filePath)
   }
 
   int id, day, newVal;
-  printf("Enter ID of the student to update: ");
+  printf("Enter the ID of the student whose attendance you want to edit: ");
   scanf("%d", &id);
 
   printf("Ingrese dia: (1 - %d): ", attdTable->days);
@@ -177,12 +177,12 @@ void editAttendance(FILE *table, AttdTable *attdTable, char *filePath)
       if (day >= 1 && day <= attdTable->days)
       {
         attdTable->students[i].attendance[day - 1] = newVal;
-        printf("Asistencia actualizada para %s %s, Day %d\n",
+        printf("Attendance updated for %s %s, day %d\n",
                attdTable->students[i].name, attdTable->students[i].lastName, day);
       }
       else
       {
-        printf("Día inválido.\n");
+        printf("Invalid day.\n");
       }
       break;
     }

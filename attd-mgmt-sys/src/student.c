@@ -18,7 +18,7 @@ void updateStudent(FILE *table, AttdTable *attdTable, char *filePath)
     if (attdTable->students[i].studentId == id)
     {
       found = 1;
-      printf("What do you wish to edit? (0-Student ID | 1-Name | 2-Lastname | 3-All data)\n");
+      printf("What do you wish to edit? (0-Student ID | 1-Name | 2-Lastname | 3-All data): ");
       scanf("%d", &opt);
 
       switch (opt)
