@@ -12,4 +12,6 @@ void openTable(char *subject, Session *session);
 
 void editAttendance(FILE *table, AttdTable *attdTable, char *filePath);
 
+void printTableHeader(AttdTable *attdTable);
+
 void printTable(FILE *f);

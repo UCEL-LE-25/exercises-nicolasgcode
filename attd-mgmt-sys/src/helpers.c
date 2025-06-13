@@ -38,7 +38,7 @@ char *renderMenu(Session *session)
   }
   else if (strcmp(roleStr, "Teacher") == 0)
   {
-    strcat(menuDisplay, "1. Load/Edit attendance\n2. Update student\n0. Go back\n");
+    strcat(menuDisplay, "1. Load/Edit attendance\n2. Update student\n3.Generate reports\n0. Go back\n");
   }
   else
   {

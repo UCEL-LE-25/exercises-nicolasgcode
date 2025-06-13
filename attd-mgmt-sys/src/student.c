@@ -9,7 +9,7 @@ void updateStudent(FILE *table, AttdTable *attdTable, char *filePath)
 
   char newName[MAX_CHAR], newLastName[MAX_CHAR];
 
-  printf("Ingrese ID del estudiante a editar: ");
+  printf("Enter ID of student to update: ");
   scanf("%d", &id);
 
   int found = 0;

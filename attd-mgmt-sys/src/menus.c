@@ -5,6 +5,7 @@
 #include "include/file.h"
 #include "include/validators.h"
 #include "include/student.h"
+#include "include/report.h"
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -41,6 +42,13 @@ void mainMenu(Session *session)
     {
     case 1:
       tableMenu(session);
+      break;
+    case 2:
+      char subject[MAX_CHAR];
+      getAllFiles();
+      printf("Enter name of the table you want to open: ");
+      scanf(" %49s", subject);
+      openTable(subject, session);
       break;
     }
 
@@ -88,13 +96,16 @@ void manageTableMenu(FILE *table, char *filePath, Session *session)
 
   int opt;
 
-  AttdTable attdTable;
+  AttdTable attdTable = {0};
+  printf("Table days %d", attdTable.days);
 
   if (!loadStudentsFromFile(table, &attdTable))
   {
     printf("\nCouldn't load table\n");
     return;
   }
+
+  printf("Table days %d", attdTable.days);
 
   do
   {
@@ -111,7 +122,7 @@ void manageTableMenu(FILE *table, char *filePath, Session *session)
       updateStudent(table, &attdTable, filePath);
       break;
     case 3:
-      // delete student
+      generateReport(&attdTable);
       break;
     case 4:
       if (checkAccessLevel(session))

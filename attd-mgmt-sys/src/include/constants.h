@@ -5,8 +5,8 @@
 #define MAX_USERNAME 20
 #define MAX_PSW 32
 #define MAX_DAYS 15
-#define DEFAULT_BKP_PATH "src/data/backup/"
-#define DEFAULT_FILE_PATH "src/data/"
+#define DEFAULT_BKP_PATH "src/data/tables/backup/"
+#define DEFAULT_FILE_PATH "src/data/tables/"
 #define DEFAULT_USER_FILE_PATH "src/data/users/"
 #define ATTD_PREFIX "attd_"
 #define USERS_FILE "users"

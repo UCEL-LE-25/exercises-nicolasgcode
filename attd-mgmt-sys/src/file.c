@@ -142,35 +142,34 @@ void writeUserFile(User user)
 void writeFile(char *file_path, AttdTable *table)
 {
   FILE *fp = fopen(file_path, "w");
-  if (fp)
-  {
-    fprintf(fp, "\nAttendance table for: %s\nCreatedAt: %02d/%02d/%04d by %s\n",
-            table->subject, table->createdAt.month, table->createdAt.day, table->createdAt.year, table->teacher->username);
-    fprintf(fp, "StudentId,Name,LastName");
-    for (int day = 1; day <= table->days; day++)
-    {
-      fprintf(fp, ",D%d", day);
-    }
-    fprintf(fp, "\n");
-
-    for (int i = 0; i < table->classSize; i++)
-    {
-      fprintf(fp, "%d,%s,%s", table->students[i].studentId,
-              table->students[i].name, table->students[i].lastName);
-
-      for (int j = 0; j < table->days; j++)
-      {
-        fprintf(fp, ",%d", table->students[i].attendance[j]);
-      }
-      fprintf(fp, "\n");
-    }
-    fclose(fp);
-  }
-  else
+  if (!fp)
   {
     perror("Error writing to file");
     abort();
   }
+
+  // Solo encabezado CSV
+  fprintf(fp, "StudentId,Name,LastName");
+  for (int day = 1; day <= table->days; day++)
+  {
+    fprintf(fp, ",D%d", day);
+  }
+  fprintf(fp, "\n");
+
+  // Datos de cada estudiante
+  for (int i = 0; i < table->classSize; i++)
+  {
+    fprintf(fp, "%d,%s,%s", table->students[i].studentId,
+            table->students[i].name, table->students[i].lastName);
+
+    for (int j = 0; j < table->days; j++)
+    {
+      fprintf(fp, ",%d", table->students[i].attendance[j]);
+    }
+    fprintf(fp, "\n");
+  }
+
+  fclose(fp);
 }
 
 void getAllFiles()
@@ -305,58 +304,90 @@ int loadStudentsFromFile(FILE *table, AttdTable *attdTable)
   int studentCount = 0;
   int dayCount = 0;
 
+  // Leer la línea de encabezado CSV (StudentId,Name,LastName,D1,D2,...)
   if (!fgets(line, sizeof(line), table))
   {
-    printf("Couldn't read file header\n");
+    printf("No se pudo leer el encabezado\n");
     return 0;
   }
 
-  char *token = strtok(line, ",");
-  int columnIndex = 0;
+  // Contar días a partir de la cantidad de columnas después de LastName (3 primeras columnas)
+  int columnCount = 0;
+  char *token;
+  char headerCopy[512];
+  strcpy(headerCopy, line);
+
+  token = strtok(headerCopy, ",\r\n");
   while (token != NULL)
   {
-    if (columnIndex >= 3)
-      dayCount++;
-    token = strtok(NULL, ",");
-    columnIndex++;
+    columnCount++;
+    token = strtok(NULL, ",\r\n");
   }
 
+  if (columnCount < 3)
+  {
+    printf("Encabezado inválido, faltan columnas\n");
+    return 0;
+  }
+
+  dayCount = columnCount - 3; // Días desde la columna 4 en adelante
+
+  // Leer cada línea de estudiante
   while (fgets(line, sizeof(line), table))
   {
     if (studentCount >= MAX_STUDENTS)
       break;
 
-    char *token = strtok(line, ",");
+    char *lineCopy = strdup(line);
+    if (!lineCopy)
+    {
+      perror("No se pudo duplicar la línea");
+      return 0;
+    }
+
+    token = strtok(lineCopy, ",\r\n");
     if (!token)
-      break;
+    {
+      free(lineCopy);
+      continue;
+    }
     attdTable->students[studentCount].studentId = atoi(token);
 
-    token = strtok(NULL, ",");
+    token = strtok(NULL, ",\r\n");
     if (!token)
-      break;
+    {
+      free(lineCopy);
+      continue;
+    }
     strcpy(attdTable->students[studentCount].name, token);
 
-    token = strtok(NULL, ",");
+    token = strtok(NULL, ",\r\n");
     if (!token)
-      break;
+    {
+      free(lineCopy);
+      continue;
+    }
     strcpy(attdTable->students[studentCount].lastName, token);
 
     for (int d = 0; d < dayCount; d++)
     {
-      token = strtok(NULL, ",\n");
+      token = strtok(NULL, ",\r\n");
       if (!token)
       {
-        printf("Attendance days missing in line: %d\n", studentCount + 1);
+        printf("Faltan días en línea del estudiante #%d\n", studentCount + 1);
+        free(lineCopy);
         return 0;
       }
       attdTable->students[studentCount].attendance[d] = atoi(token);
     }
 
+    free(lineCopy);
     studentCount++;
   }
 
   attdTable->classSize = studentCount;
   attdTable->days = dayCount;
+
   rewind(table);
   return 1;
 }

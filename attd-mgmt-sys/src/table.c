@@ -87,37 +87,22 @@ void printTable(FILE *f)
   char line[1024];
   int row = 0;
 
-  while (fgets(line, sizeof(line), f))
-  {
-    if (strlen(line) <= 1)
-      continue;
-    line[strcspn(line, "\n")] = 0;
-    printf(BOLD "%s\n" RESET, line);
-    break;
-  }
-
-  while (fgets(line, sizeof(line), f))
-  {
-    if (strlen(line) <= 1)
-      continue;
-    line[strcspn(line, "\n")] = 0;
-    printf(BOLD "%s\n\n" RESET, line);
-    break;
-  }
+  rewind(f); // asegúrate de volver al inicio
 
   while (fgets(line, sizeof(line), f))
   {
     if (strlen(line) <= 1)
       continue;
 
-    line[strcspn(line, "\n")] = 0;
+    line[strcspn(line, "\n")] = 0; // quitar '\n'
+
     char *token = strtok(line, ",");
     int col = 0;
 
     while (token)
     {
       if (row == 0)
-      { // Encabezado de la tabla
+      { // encabezado CSV
         if (col == 0)
           printf("%-12s", "StudentId");
         else if (col == 1)
@@ -128,12 +113,8 @@ void printTable(FILE *f)
           printf("%-4s", token);
       }
       else
-      {
-        if (col == 0)
-          printf("%-12s", token);
-        else if (col == 1)
-          printf("%-12s", token);
-        else if (col == 2)
+      { // datos
+        if (col <= 2)
           printf("%-12s", token);
         else
         {
@@ -149,7 +130,6 @@ void printTable(FILE *f)
       token = strtok(NULL, ",");
       col++;
     }
-
     printf("\n");
     row++;
   }
@@ -172,14 +152,20 @@ void openTable(char *subject, Session *session)
 void editAttendance(FILE *table, AttdTable *attdTable, char *filePath)
 {
 
+  if (attdTable == NULL || attdTable->students == NULL || attdTable->classSize <= 0)
+  {
+    printf("No attendance data available.\n");
+    return;
+  }
+
   int id, day, newVal;
-  printf("Ingrese ID del estudiante a editar: ");
+  printf("Enter ID of the student to update: ");
   scanf("%d", &id);
 
   printf("Ingrese dia: (1 - %d): ", attdTable->days);
   scanf("%d", &day);
 
-  printf("Nuevo valor (1=presente, 0=ausente): ");
+  printf("New value (0-absent | 1-present): ");
   scanf("%d", &newVal);
 
   int found = 0;
@@ -208,9 +194,33 @@ void editAttendance(FILE *table, AttdTable *attdTable, char *filePath)
     return;
   }
 
+  printf("File path: %s\n", filePath);
+
+  for (int i = 0; i < attdTable->classSize; i++)
+  {
+    printf("StudentId: %d, Name: %s %s, Attendance: ",
+           attdTable->students[i].studentId,
+           attdTable->students[i].name,
+           attdTable->students[i].lastName);
+    for (int d = 0; d < attdTable->days; d++)
+    {
+      printf("%d ", attdTable->students[i].attendance[d]);
+    }
+    printf("\n");
+  }
+
   writeFile(filePath, attdTable);
 
   printf("Updated file: %s\n", filePath);
 
   printTable(table);
+}
+
+void printTableHeader(AttdTable *attdTable)
+{
+  printf("Attendance Table for %s\n", attdTable->subject);
+  printf("Created on: %02d/%02d/%04d by %s\n",
+         attdTable->createdAt.day,
+         attdTable->createdAt.month,
+         attdTable->createdAt.year, attdTable->teacher->username);
 }

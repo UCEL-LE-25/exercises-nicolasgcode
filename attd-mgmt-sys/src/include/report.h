@@ -1,3 +1,4 @@
 #pragma once
+#include "typedefs.h"
 
-void printAttdReport();
+void generateReport(AttdTable *attdTable);
