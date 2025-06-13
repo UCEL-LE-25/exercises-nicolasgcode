@@ -22,38 +22,38 @@ void program(Session *session, loadedUsers *users)
   printf("Already have an account? (y/n): ");
   scanf(" %c", &opt);
   opt = tolower(opt);
-  opt == 'y' ? login(session, users) ? mainMenu(session)
+  opt == 'y' ? login(session, users) ? tableMenu(session)
                                      : printf("Login failed. Please try again.\n")
              : signUp(session, users);
 }
 
-void mainMenu(Session *session)
-{
-  int opt;
+// void mainMenu(Session *session)
+// {
+//   int opt;
 
-  do
-  {
-    printf("\n1. View tables\n2. Generate reports\n0. Exit\n");
+//   do
+//   {
+//     printf("\n1. View tables\n2. Generate reports\n0. Exit\n");
 
-    printf("\nSelect an option: ");
-    scanf("%d", &opt);
+//     printf("\nSelect an option: ");
+//     scanf("%d", &opt);
 
-    switch (opt)
-    {
-    case 1:
-      tableMenu(session);
-      break;
-    case 2:
-      char subject[MAX_CHAR];
-      getAllFiles();
-      printf("Enter name of the table you want to open: ");
-      scanf(" %49s", subject);
-      openTable(subject, session);
-      break;
-    }
+//     switch (opt)
+//     {
+//     case 1:
+//       tableMenu(session);
+//       break;
+//     case 2:
+//       char subject[MAX_CHAR];
+//       getAllFiles();
+//       printf("Enter name of the table you want to open: ");
+//       scanf(" %49s", subject);
+//       openTable(subject, session);
+//       break;
+//     }
 
-  } while (opt != 0);
-}
+//   } while (opt != 0);
+// }
 
 void tableMenu(Session *session)
 {
@@ -62,6 +62,7 @@ void tableMenu(Session *session)
 
   do
   {
+
     getAllFiles();
 
     printf("\n1. Open table\n2. Create new table\n0. Go back\n");
