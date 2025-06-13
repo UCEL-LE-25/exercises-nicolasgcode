@@ -4,6 +4,7 @@
 #include "include/menus.h"
 #include "include/typedefs.h"
 #include "include/user.h"
+#include "include/helpers.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -45,6 +46,7 @@ File createFile(AttdTable *table)
 
 void createUserFile()
 {
+  clearScreen();
 
   File file;
 
@@ -53,7 +55,6 @@ void createUserFile()
 
   snprintf(filename, sizeof(filename), "%s.dat",
            USERS_FILE);
-  printf("filename %s", filename);
 
   strncpy(file.name, filename, sizeof(file.name) - 1);
   file.name[sizeof(file.name) - 1] = '\0';

@@ -12,6 +12,7 @@
 
 void program(Session *session, loadedUsers *users)
 {
+  clearScreen();
   if (!userFileExists())
   {
     createUserFile();

@@ -9,6 +9,7 @@
 
 void signUp(Session *session, loadedUsers *users)
 {
+  clearScreen();
 
   User user;
   user.role = TEACHER;
