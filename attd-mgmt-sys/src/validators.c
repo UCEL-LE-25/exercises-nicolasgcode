@@ -4,6 +4,7 @@
 #include "include/helpers.h"
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
 bool userExists(loadedUsers *loaded, loginData data, Session *session)
 {
@@ -90,7 +91,7 @@ void checkDniExists(int *dni, loadedUsers *loaded)
     if (loaded->users[i].dni == *dni)
     {
       printf("\nDNI already exists.\nDNI: ");
-      scanf("%d", &dni);
+      scanf("%d", dni);
       checkDni(dni);
       checkDniExists(dni, loaded);
       return;
@@ -120,6 +121,7 @@ void checkUsernameExists(char *username, loadedUsers *loaded)
       return;
     }
   }
+  checkUsername(username);
 }
 
 void checkUsername(char *username)
@@ -137,5 +139,47 @@ void checkPassword(char *password)
   {
     printf("\nInvalid password.\nPlease enter a valid password (8-50 characters): ");
     scanf(" %49s", password);
+  }
+}
+
+int isValidSubject(const char *subject)
+{
+  int len = strlen(subject);
+  if (len < 3 || len > MAX_CHAR)
+    return 0;
+
+  for (int i = 0; i < len; i++)
+  {
+    if (!isalpha(subject[i]))
+      return 0;
+  }
+
+  return 1;
+}
+
+void checkSubject(char *subject)
+{
+  while (!isValidSubject(subject))
+  {
+    printf("\nInvalid subject.\nOnly letters allowed (3-%d) characters, no spaces). Try again: ", MAX_CHAR);
+    scanf(" %49s", subject);
+  }
+}
+
+void isValidOpt(int *opt)
+{
+  while (*opt != 0 && *opt != 1)
+  {
+    printf("\nInvalid option.\nPlease, enter a valid option (0 or 1): ");
+    scanf("%d", opt);
+  }
+}
+
+void isValidQuantity(int *classSize)
+{
+  while (*classSize < 1 || *classSize > MAX_STUDENTS)
+  {
+    printf("\nInvalid quantityu.\nPlease enter a quantity (1-%d): ", MAX_STUDENTS);
+    scanf("%d", classSize);
   }
 }

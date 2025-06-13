@@ -37,6 +37,9 @@ void tableMenu(Session *session)
   {
     clearScreen();
 
+    printf("\nWelcome %s\n", session->currentUser->username);
+    printf("Role: %s\n\n", roleToString(session->currentUser->role));
+
     getAllFiles();
 
     printf("\n1. Open table\n2. Create new table\n0. Exit\n");

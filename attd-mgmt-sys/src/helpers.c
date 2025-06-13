@@ -30,7 +30,6 @@ char *renderMenu(Session *session)
   }
 
   const char *roleStr = roleToString(session->currentUser->role);
-  snprintf(menuDisplay, sizeof(menuDisplay), "Role: %s\n", roleStr);
 
   if (strcmp(roleStr, "Admin") == 0)
   {

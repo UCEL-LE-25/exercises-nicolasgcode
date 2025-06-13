@@ -18,8 +18,10 @@ void createTable(Session *session)
 
   printf("Select table type (0-weekly/1-biweekly): ");
   scanf("%d", &opt);
+  isValidOpt(&opt);
   printf("How many students are in the class? (max %d): ", MAX_STUDENTS);
   scanf("%d", &classSize);
+  isValidQuantity(&classSize);
 
   switch (opt)
   {
@@ -37,6 +39,7 @@ void createTable(Session *session)
 
   printf("Enter subject: ");
   scanf(" %49s", subject);
+  checkSubject(subject);
 
   AttdTable table;
   strncpy(table.teacher, session->currentUser->username, MAX_CHAR - 1);

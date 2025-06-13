@@ -19,6 +19,11 @@ void checkDniExists(int *dni, loadedUsers *loaded);
 void checkUsernameExists(char username[], loadedUsers *loaded);
 void checkUsername(char username[]);
 void checkPassword(char password[]);
+int isValidSubject(const char *subject);
+void isValidOpt(int *opt);
+void isValidQuantity(int *classSize);
+
+void checkSubject(char *subject);
 
 void backupExists(File file);
 
