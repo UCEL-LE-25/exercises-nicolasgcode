@@ -13,8 +13,6 @@ void updateStudent(FILE *table, AttdTable *attdTable, char *filePath)
   printf("Enter ID of student to update: ");
   scanf("%d", &id);
 
-  printf("Updating student with ID: %d\n", id);
-
   int found = 0;
   for (int i = 0; i < attdTable->classSize && !found; i++)
   {

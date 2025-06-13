@@ -65,7 +65,7 @@ void loadStudents(AttdTable *table)
     printf("Student %d: \n", i + 1);
     printf("ID: ");
     scanf("%d", &id);
-    checkIdExists(id, table);
+    checkIdExists(&id, table);
     table->students[i].studentId = id;
 
     printf("Name: ");

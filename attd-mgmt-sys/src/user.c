@@ -20,7 +20,7 @@ void signUp(Session *session, loadedUsers *users)
   printf("Please, create your account.\n");
   printf("DNI: ");
   scanf("%d", &dni);
-  checkDniExists(dni, users);
+  checkDniExists(&dni, users);
   user.dni = dni;
   printf("Username: ");
   scanf("%s", username);

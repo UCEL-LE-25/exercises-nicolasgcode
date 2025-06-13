@@ -26,12 +26,12 @@ bool checkAccessLevel(Session *session)
   return session->currentUser->role == ADMIN;
 }
 
-void checkId(int id)
+void checkId(int *id)
 {
-  while (id < 100000 || id > 999999)
+  while (*id < 100000 || *id > 999999)
   {
     printf("\nInvalid ID.\nPlease enter a valid ID (6 digits): ");
-    scanf("%d", &id);
+    scanf("%d", id);
   }
 }
 void checkName(char *name)
@@ -51,14 +51,14 @@ void checkLastname(char *lastname)
   }
 }
 
-void checkIdExists(int id, AttdTable *table)
+void checkIdExists(int *id, AttdTable *table)
 {
   for (int i = 0; i < table->classSize; i++)
   {
-    if (table->students[i].studentId == id)
+    if (table->students[i].studentId == *id)
     {
       printf("\nID already exists.\nPlease enter a different ID: ");
-      scanf("%d", &id);
+      scanf("%d", id);
       checkId(id);
       checkIdExists(id, table);
       return;
@@ -83,11 +83,11 @@ bool userFileExists()
   return false;
 }
 
-void checkDniExists(int dni, loadedUsers *loaded)
+void checkDniExists(int *dni, loadedUsers *loaded)
 {
   for (int i = 0; i < loaded->count; i++)
   {
-    if (loaded->users[i].dni == dni)
+    if (loaded->users[i].dni == *dni)
     {
       printf("\nDNI already exists.\nDNI: ");
       scanf("%d", &dni);
@@ -98,12 +98,12 @@ void checkDniExists(int dni, loadedUsers *loaded)
   }
 }
 
-void checkDni(int dni)
+void checkDni(int *dni)
 {
-  while (dni < 10000000 || dni > 99999999)
+  while (*dni < 10000000 || *dni > 99999999)
   {
     printf("\nInvalid DNI.\nPlease enter a valid ID (8 digits): ");
-    scanf("%d", &dni);
+    scanf("%d", dni);
   }
 }
 
