@@ -62,7 +62,7 @@ typedef struct
 
 typedef struct
 {
-  User *teacher;
+  char teacher[MAX_CHAR];
   char subject[MAX_CHAR];
   int classSize;
   int days;

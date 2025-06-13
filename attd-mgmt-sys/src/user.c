@@ -38,8 +38,9 @@ void signUp(Session *session, loadedUsers *users)
 
 bool login(Session *session, loadedUsers *users)
 {
+  clearScreen();
 
-  printf("Please, log in\n");
+  printf("\nPlease, log in\n\n");
 
   loginData data;
 

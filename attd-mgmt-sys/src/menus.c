@@ -34,6 +34,7 @@ void tableMenu(Session *session)
 
   do
   {
+    clearScreen();
 
     getAllFiles();
 
@@ -69,7 +70,7 @@ void manageTableMenu(FILE *table, char *filePath, Session *session)
 
   int opt;
 
-  AttdTable attdTable = {0};
+  AttdTable attdTable;
 
   if (!loadStudentsFromFile(table, &attdTable))
   {
@@ -93,7 +94,7 @@ void manageTableMenu(FILE *table, char *filePath, Session *session)
       updateStudent(table, &attdTable, filePath);
       break;
     case 3:
-      generateReport(&attdTable);
+      generateReport(table, &attdTable);
       break;
     case 4:
       if (checkAccessLevel(session))

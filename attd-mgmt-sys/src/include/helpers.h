@@ -8,3 +8,5 @@ char *renderMenu(Session *session);
 unsigned int hashPsw(char *password);
 
 User createDefaultUser();
+
+void clearScreen();

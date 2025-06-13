@@ -1,6 +1,7 @@
 #include "include/student.h"
 #include "include/file.h"
 #include "include/table.h"
+#include "include/helpers.h"
 #include <string.h>
 
 void updateStudent(FILE *table, AttdTable *attdTable, char *filePath)
@@ -70,6 +71,8 @@ void updateStudent(FILE *table, AttdTable *attdTable, char *filePath)
   writeFile(filePath, attdTable);
 
   printf("Updated file: %s\n", filePath);
+
+  clearScreen();
 
   printTable(table);
 }

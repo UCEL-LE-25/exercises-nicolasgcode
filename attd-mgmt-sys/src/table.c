@@ -3,6 +3,7 @@
 #include "include/date.h"
 #include "include/menus.h"
 #include "include/validators.h"
+#include "include/helpers.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -13,7 +14,7 @@ void createTable(Session *session)
   int classSize;
   Date date = getTodaysDate();
 
-  char subject[50];
+  char subject[MAX_CHAR];
 
   printf("Select table type (0-weekly/1-biweekly): ");
   scanf("%d", &opt);
@@ -35,12 +36,14 @@ void createTable(Session *session)
   }
 
   printf("Enter subject: ");
-  scanf(" %49s", &subject);
+  scanf(" %49s", subject);
 
   AttdTable table;
-  table.teacher = session->currentUser;
-  table.createdAt = date;
+  strncpy(table.teacher, session->currentUser->username, MAX_CHAR - 1);
+  table.teacher[MAX_CHAR - 1] = '\0';
   strncpy(table.subject, subject, MAX_CHAR - 1);
+  table.subject[MAX_CHAR - 1] = '\0';
+  table.createdAt = date;
   table.classSize = classSize;
   table.days = days;
 
@@ -87,14 +90,14 @@ void printTable(FILE *f)
   char line[1024];
   int row = 0;
 
-  rewind(f); // asegúrate de volver al inicio
+  rewind(f);
 
   while (fgets(line, sizeof(line), f))
   {
     if (strlen(line) <= 1)
       continue;
 
-    line[strcspn(line, "\n")] = 0; // quitar '\n'
+    line[strcspn(line, "\n")] = 0;
 
     char *token = strtok(line, ",");
     int col = 0;
@@ -102,7 +105,7 @@ void printTable(FILE *f)
     while (token)
     {
       if (row == 0)
-      { // encabezado CSV
+      {
         if (col == 0)
           printf("%-12s", "StudentId");
         else if (col == 1)
@@ -113,7 +116,7 @@ void printTable(FILE *f)
           printf("%-4s", token);
       }
       else
-      { // datos
+      {
         if (col <= 2)
           printf("%-12s", token);
         else
@@ -142,6 +145,7 @@ void openTable(char *subject, Session *session)
   if (!table)
     return;
 
+  clearScreen();
   printTable(table);
 
   manageTableMenu(table, filePath, session);
@@ -194,24 +198,11 @@ void editAttendance(FILE *table, AttdTable *attdTable, char *filePath)
     return;
   }
 
-  printf("File path: %s\n", filePath);
-
-  for (int i = 0; i < attdTable->classSize; i++)
-  {
-    printf("StudentId: %d, Name: %s %s, Attendance: ",
-           attdTable->students[i].studentId,
-           attdTable->students[i].name,
-           attdTable->students[i].lastName);
-    for (int d = 0; d < attdTable->days; d++)
-    {
-      printf("%d ", attdTable->students[i].attendance[d]);
-    }
-    printf("\n");
-  }
-
   writeFile(filePath, attdTable);
 
   printf("Updated file: %s\n", filePath);
+
+  clearScreen();
 
   printTable(table);
 }
@@ -222,5 +213,5 @@ void printTableHeader(AttdTable *attdTable)
   printf("Created on: %02d/%02d/%04d by %s\n",
          attdTable->createdAt.day,
          attdTable->createdAt.month,
-         attdTable->createdAt.year, attdTable->teacher->username);
+         attdTable->createdAt.year, attdTable->teacher);
 }
