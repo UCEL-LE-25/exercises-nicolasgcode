@@ -166,7 +166,7 @@ void editAttendance(FILE *table, AttdTable *attdTable, char *filePath)
   printf("Enter the ID of the student whose attendance you want to edit: ");
   scanf("%d", &id);
 
-  printf("Ingrese dia: (1 - %d): ", attdTable->days);
+  printf("Day: (1 - %d): ", attdTable->days);
   scanf("%d", &day);
 
   printf("New value (0-absent | 1-present): ");
