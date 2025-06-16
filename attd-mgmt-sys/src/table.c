@@ -88,14 +88,14 @@ void loadStudents(AttdTable *table)
   }
 }
 
-void printTable(FILE *f)
+void printTable(FILE *table)
 {
   char line[1024];
   int row = 0;
 
-  rewind(f);
+  rewind(table);
 
-  while (fgets(line, sizeof(line), f))
+  while (fgets(line, sizeof(line), table))
   {
     if (strlen(line) <= 1)
       continue;
@@ -148,15 +148,12 @@ void openTable(char *subject, Session *session)
   if (!table)
     return;
 
-  clearScreen();
-  printTable(table);
-
-  manageTableMenu(table, filePath, session);
+    manageTableMenu(table, filePath, session);
 
   fclose(table);
 }
 
-void editAttendance(FILE *table, AttdTable *attdTable, char *filePath)
+void editAttendance(AttdTable *attdTable, char *filePath)
 {
 
   if (attdTable == NULL || attdTable->students == NULL || attdTable->classSize <= 0)
@@ -202,12 +199,6 @@ void editAttendance(FILE *table, AttdTable *attdTable, char *filePath)
   }
 
   writeFile(filePath, attdTable);
-
-  printf("Updated file: %s\n", filePath);
-
-  clearScreen();
-
-  printTable(table);
 }
 
 void printTableHeader(AttdTable *attdTable)

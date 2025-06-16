@@ -126,7 +126,7 @@ void checkUsernameExists(char *username, loadedUsers *loaded)
 
 void checkUsername(char *username)
 {
-  while (strlen(username) < 8 || strlen(username) > MAX_USERNAME)
+  while (strlen(username) < 3 || strlen(username) > MAX_USERNAME)
   {
     printf("\nInvalid username.\nPlease enter a valid username (3-20 characters): ");
     scanf(" %49s", username);
@@ -179,7 +179,7 @@ void isValidQuantity(int *classSize)
 {
   while (*classSize < 1 || *classSize > MAX_STUDENTS)
   {
-    printf("\nInvalid quantityu.\nPlease enter a quantity (1-%d): ", MAX_STUDENTS);
+    printf("\nInvalid quantity.\nPlease enter a quantity (1-%d): ", MAX_STUDENTS);
     scanf("%d", classSize);
   }
 }

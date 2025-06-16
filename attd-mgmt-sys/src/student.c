@@ -2,9 +2,11 @@
 #include "include/file.h"
 #include "include/table.h"
 #include "include/helpers.h"
+#include "include/validators.h"
+#include <ctype.h>
 #include <string.h>
 
-void updateStudent(FILE *table, AttdTable *attdTable, char *filePath)
+void updateStudent(AttdTable *attdTable, char *filePath)
 {
   int opt, id, newId;
 
@@ -64,10 +66,86 @@ void updateStudent(FILE *table, AttdTable *attdTable, char *filePath)
   }
 
   writeFile(filePath, attdTable);
+}
 
-  printf("Updated file: %s\n", filePath);
+void addStudent(AttdTable *attdTable, char *filePath)
+{
+  if (attdTable->classSize >= MAX_STUDENTS)
+  {
+    printf("Class is full. Cannot add more students.\n");
+    return;
+  }
 
-  clearScreen();
+  int id;
+  char name[MAX_CHAR];
+  char lastName[MAX_CHAR];
 
-  printTable(table);
+  printf("New student ID: ");
+  scanf("%d", &id);
+  checkIdExists(&id, attdTable);
+
+  printf("New student name: ");
+  scanf(" %49s", name);
+  checkName(name);
+
+  printf("New student last name: ");
+  scanf(" %49s", lastName);
+  checkLastname(lastName);
+
+  int i = attdTable->classSize;
+
+  attdTable->students[i].studentId = id;
+  strncpy(attdTable->students[i].name, name, MAX_CHAR - 1);
+  attdTable->students[i].name[MAX_CHAR - 1] = '\0';
+
+  strncpy(attdTable->students[i].lastName, lastName, MAX_CHAR - 1);
+  attdTable->students[i].lastName[MAX_CHAR - 1] = '\0';
+
+  for (int j = 0; j < attdTable->days; j++)
+  {
+    attdTable->students[i].attendance[j] = 0;
+  }
+
+  attdTable->classSize++;
+
+  writeFile(filePath, attdTable);
+}
+
+void deleteStudent(AttdTable *attdTable, char *filePath)
+{
+  if (attdTable->classSize == 0)
+  {
+    printf("No students to delete.\n");
+    return;
+  }
+
+  int id;
+  printf("Enter the ID of the student to delete: ");
+  scanf("%d", &id);
+
+  int found = 0;
+  for (int i = 0; i < attdTable->classSize && !found; i++)
+  {
+
+    if (attdTable->students[i].studentId == id)
+    {
+      found = 1;
+      printf("Are you sure you want to delete student with ID %d and all associated data? (y/n): ", id);
+      char confirm;
+      scanf(" %c", &confirm);
+      confirm = tolower(confirm);
+      if (confirm == 'y')
+      {
+        for (int j = i; j < attdTable->classSize - 1; j++)
+        {
+          attdTable->students[j] = attdTable->students[j + 1];
+        }
+        attdTable->classSize--;
+
+        writeFile(filePath, attdTable);
+
+        break;
+      }
+    }
+  }
 }

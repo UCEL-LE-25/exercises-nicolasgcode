@@ -23,12 +23,12 @@ void program(Session *session, loadedUsers *users)
   printf("Already have an account? (y/n): ");
   scanf(" %c", &opt);
   opt = tolower(opt);
-  opt == 'y' ? login(session, users) ? tableMenu(session)
+  opt == 'y' ? login(session, users) ? tableMenu(session, users)
                                      : printf("Login failed. Please try again.\n")
              : signUp(session, users);
 }
 
-void tableMenu(Session *session)
+void tableMenu(Session *session, loadedUsers *users)
 {
 
   int opt;
@@ -42,7 +42,9 @@ void tableMenu(Session *session)
 
     getAllFiles();
 
-    printf("\n1. Open table\n2. Create new table\n0. Exit\n");
+    strcmp(roleToString(session->currentUser->role), "Admin") == 0
+        ? printf("\n1. Open table\n2. Create new table\n3. Manage users\n0. Exit\n")
+        : printf("\n1. Open table\n2. Create new table\n0. Exit\n");
 
     printf("\nSelect an option: ");
 
@@ -59,8 +61,16 @@ void tableMenu(Session *session)
     case 2:
       createTable(session);
       break;
+    case 3:
+      if (checkAccessLevel(session))
+      {
+        manageUsersMenu(users);
+      }
+      else
+      {
+        printf("Access denied. Please log in with an admin account to manage users.\n");
+      }
     case 0:
-
       break;
     default:
       printf("Invalid option. Please try again.\n");
@@ -71,6 +81,7 @@ void tableMenu(Session *session)
 
 void manageTableMenu(FILE *table, char *filePath, Session *session)
 {
+  clearScreen();
 
   int opt;
 
@@ -84,6 +95,8 @@ void manageTableMenu(FILE *table, char *filePath, Session *session)
 
   do
   {
+    clearScreen();
+    printTable(table);
     printf("\n%s", renderMenu(session));
     printf("\nSelect an option: ");
 
@@ -92,25 +105,63 @@ void manageTableMenu(FILE *table, char *filePath, Session *session)
     switch (opt)
     {
     case 1:
-      editAttendance(table, &attdTable, filePath);
+      editAttendance(&attdTable, filePath);
       break;
     case 2:
-      updateStudent(table, &attdTable, filePath);
+      addStudent(&attdTable, filePath);
       break;
     case 3:
-      generateReport(table, &attdTable);
+      updateStudent(&attdTable, filePath);
       break;
     case 4:
+      deleteStudent(&attdTable, filePath);
+      break;
+    case 5:
       if (checkAccessLevel(session))
       {
         deleteFile(table, filePath);
-        printf("Table deleted successfully.\n");
       }
       else
       {
-        printf("Access denied. Please log in with an admin account to perform delete operations.\n");
+        generateReport(table, &attdTable);
       }
       break;
+
+    default:
+      printf("Invalid option. Please try again.\n");
+      break;
+    }
+  } while (opt != 0);
+}
+
+void manageUsersMenu(loadedUsers *users)
+{
+
+  int opt;
+
+  do
+  {
+    clearScreen();
+
+    getAllUsers(users);
+    printf("Manage Users\n");
+    printf("\n1. Add User\n2. Edit User\n3. Delete User\n0. Back\n");
+    printf("\nSelect an option: ");
+    scanf("%d", &opt);
+
+    switch (opt)
+    {
+    case 1:
+      addUser(users);
+      break;
+    case 2:
+      updateUser(users);
+      break;
+    case 3:
+      deleteUser(users);
+      break;
+    case 0:
+      return;
     default:
       printf("Invalid option. Please try again.\n");
       break;

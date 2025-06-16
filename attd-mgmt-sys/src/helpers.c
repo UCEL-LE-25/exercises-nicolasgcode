@@ -21,30 +21,26 @@ char *roleToString(ROLE role)
 
 char *renderMenu(Session *session)
 {
-  static char menuDisplay[1024];
 
   if (session == NULL || session->currentUser == NULL)
   {
-    snprintf(menuDisplay, sizeof(menuDisplay), "Logged out\n");
-    return menuDisplay;
+    return "Logged out\n";
   }
 
   const char *roleStr = roleToString(session->currentUser->role);
 
   if (strcmp(roleStr, "Admin") == 0)
   {
-    strcat(menuDisplay, "\n1. Load/Edit attendance\n2. Update student\n3. Delete student\n4. Delete table\n0. Go back\n");
+    return "\n1. Load/Edit attendance\n2. Add student\n3. Update student\n4. Delete student\n5. Delete table\n0. Go back\n";
   }
   else if (strcmp(roleStr, "Teacher") == 0)
   {
-    strcat(menuDisplay, "1. Load/Edit attendance\n2. Update student\n3. Generate reports\n0. Go back\n");
+    return "1. Load/Edit attendance\n2. Add student\n3. Update student\n4. Delete student\n5. Generate reports\n0. Go back\n";
   }
   else
   {
-    strcat(menuDisplay, "Unknown role\n");
+    return "Unknown role\n";
   }
-
-  return menuDisplay;
 }
 
 unsigned int hashPsw(char *password)

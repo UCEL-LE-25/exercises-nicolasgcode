@@ -436,3 +436,21 @@ int loadUsersFromFile(loadedUsers *loaded)
   fclose(file);
   return loaded->count;
 }
+
+void saveUsersToFile(loadedUsers *users)
+{
+  char file_path[1024];
+  snprintf(file_path, sizeof(file_path), "%s%s.dat",
+           DEFAULT_USER_FILE_PATH, USERS_FILE);
+
+  FILE *file = fopen(file_path, "wb");
+  if (!file)
+  {
+    printf("Error opening users file for saving.\n");
+    return;
+  }
+
+  fwrite(users->users, sizeof(User), users->count, file);
+
+  fclose(file);
+}

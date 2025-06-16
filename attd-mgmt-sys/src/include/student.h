@@ -2,6 +2,8 @@
 #include "typedefs.h"
 #include <stdio.h>
 
-void updateStudent(FILE *table, AttdTable *attdTable, char *filePath);
+void updateStudent(AttdTable *attdTable, char *filePath);
 
-void deleteStudent();
+void addStudent(AttdTable *attdTable, char *filePath);
+
+void deleteStudent(AttdTable *attdTable, char *filePath);

@@ -24,3 +24,5 @@ void deleteFile(FILE *table, char *filePath);
 int loadStudentsFromFile(FILE *table, AttdTable *attdTable);
 
 int loadUsersFromFile(loadedUsers *users);
+
+void saveUsersToFile(loadedUsers *users);
