@@ -136,6 +136,7 @@ void manageTableMenu(FILE *table, char *filePath, Session *session)
 
 void manageUsersMenu(loadedUsers *users)
 {
+  clearScreen();
 
   int opt;
 

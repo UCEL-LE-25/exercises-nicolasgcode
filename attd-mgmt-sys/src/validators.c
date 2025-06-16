@@ -97,6 +97,7 @@ void checkDniExists(int *dni, loadedUsers *loaded)
       return;
     }
   }
+  checkDni(dni);
 }
 
 void checkDni(int *dni)

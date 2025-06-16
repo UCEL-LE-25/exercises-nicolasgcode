@@ -78,11 +78,12 @@ User createDefaultUser()
 
 void getAllUsers(loadedUsers *users)
 {
+  clearScreen();
 
   if (users->count > 0)
   {
     printf("\n%-20s %-20s %-20s %-10s\n", "DNI", "Username", "Password", "Role");
-    printf("----------------------------------------------------------\n");
+    printf("----------------------------------------------------------------------\n");
   }
   else
   {
@@ -161,9 +162,10 @@ void updateUser(loadedUsers *users)
 
   for (int i = 0; i < users->count && !found; i++)
   {
-    found = 1;
     if (users->users[i].dni == dni)
     {
+      found = 1;
+
       char newUsername[MAX_USERNAME];
       printf("New username: ");
       scanf(" %49s", newUsername);
